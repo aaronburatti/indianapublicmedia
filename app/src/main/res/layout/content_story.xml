@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Story"
+    tools:showIn="@layout/activity_story">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".Story"
+        tools:showIn="@layout/activity_story">
+
+        <ImageView
+            android:contentDescription="@string/place_holder"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/storyViewLeadImage"
+            android:background="@mipmap/storyleadicon"
+            />
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="50dp"
+            >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/storyViewTitle"
+                android:text="@string/story_title"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/story_author"
+                android:textSize="12sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="45dp"
+                android:text="@string/story_date"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:text="@string/story_body"
+                android:textSize="13sp"
+                android:ellipsize="none"
+                android:scrollHorizontally="false"/>
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

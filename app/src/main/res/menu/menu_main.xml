@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.nebulese.myapplication.MainActivity">
+
+    <item
+        android:id="@+id/action_home"
+        android:orderInCategory="1"
+        android:title="@string/action_home"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/action_wfiu"
+        android:orderInCategory="2"
+        android:title="@string/action_radio"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/action_wtiu"
+        android:orderInCategory="3"
+        android:title="@string/action_tv"
+        app:showAsAction="always"
+        />
+
+
+    <!--This item is sitting as a base template if I add more overflow items-->
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="never" />-->
+</menu>
