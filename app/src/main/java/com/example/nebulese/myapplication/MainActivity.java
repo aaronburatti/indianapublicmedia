@@ -13,10 +13,14 @@ import android.widget.ImageButton;
 import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
+    //set the flag which looks for a created state and brings it to the
+    //front of the stack
     private static final int flag = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
+    //register the clickable components
     ImageButton leadImageButton;
     ImageButton shareImageButton;
     VideoView videoView;
+    //register the menu items
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //make sure everything needed is programmatically accessible
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
         shareImageButton = (ImageButton)findViewById(R.id.shareIcon);
         videoView = (VideoView)findViewById(R.id.videoStory);
@@ -85,26 +90,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    
+
+    //have at the ready if state persistence is needed across activity
     @Override
     protected void onResume(){
+
         super.onResume();
     }
 
-    public void onBookmarkClick(View view){
 
-    }
-
+    //this method will be extended to bring up a specific story in the future
     public void onStoryImageClick(View view){
+        //make a new intent with the story class
         Intent intent = new Intent(this, Story.class);
+        //send the activity
         startActivity(intent);
     }
 
     public void onStoryShareClick(View view){
+        //create a new intent to send a message with the devices messaging apps
         Intent intent = new Intent(Intent.ACTION_SEND);
+        //most generic type, will probably change to something more compatible
+        //with html as this is for story sharing
         intent.setType("text/plain");
+        //title of the sharing box
         String title = "Share Via...";
+        //use the native method to create and display the chooser
         Intent chooseIntent = Intent.createChooser(intent, title);
+        //do it
         startActivity(chooseIntent);
     }
 
