@@ -19,4 +19,5 @@
     <string name="action_home">Home</string>
     <string name="action_radio">WFIU</string>
     <string name="action_tv">WTIU</string>
+    <string name="title_activity_television">Television</string>
 </resources>

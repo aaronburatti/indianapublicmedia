@@ -6,17 +6,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
-import android.widget.VideoView;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class Television extends AppCompatActivity {
+    //set the flag which looks for a created state and brings it to the
+    //front of the stack
     private static final int flag = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
-    ImageButton leadImageButton;
-    ImageButton shareImageButton;
-    VideoView videoView;
+    //register the menu items
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
@@ -24,13 +22,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_television);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        leadImageButton = (ImageButton)findViewById(R.id.leadImage);
-        shareImageButton = (ImageButton)findViewById(R.id.shareIcon);
-        videoView = (VideoView)findViewById(R.id.videoStory);
+        //make sure these gui components are available when activity starts
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
@@ -84,28 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-    }
-    
-    @Override
-    protected void onResume(){
-        super.onResume();
-    }
-
-    public void onBookmarkClick(View view){
-
-    }
-
-    public void onStoryImageClick(View view){
-        Intent intent = new Intent(this, Story.class);
-        startActivity(intent);
-    }
-
-    public void onStoryShareClick(View view){
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String title = "Share Via...";
-        Intent chooseIntent = Intent.createChooser(intent, title);
-        startActivity(chooseIntent);
     }
 
 }
