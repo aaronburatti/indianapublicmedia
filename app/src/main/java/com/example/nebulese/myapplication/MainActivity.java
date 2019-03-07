@@ -123,8 +123,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Android Studio Boilerplate Code. Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
+        if (id == R.id.nav_archive) {
+
 //        } else if (id == R.id.nav_gallery) {
 //
 //        } else if (id == R.id.nav_slideshow) {
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        } else if (id == R.id.nav_send) {
 //
-//        }
+       }
         //Android Studio Boilerplate Code
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -170,6 +170,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent chooseIntent = Intent.createChooser(intent, title);
         //do it
         startActivity(chooseIntent);
+    }
+
+    public void onBookmarkClick(){
+
     }
 
 }
