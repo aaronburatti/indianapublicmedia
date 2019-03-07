@@ -14,7 +14,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //set the flag which looks for a created state and brings it to the
@@ -120,11 +125,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         //Android Studio Boilerplate Code. Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_archive) {
-
+            Intent intentArchive = new Intent(this, BmarkedStories.class);
+            intentArchive.addFlags(flag);
+            startActivity(intentArchive);
+            return true;
 //        } else if (id == R.id.nav_gallery) {
 //
 //        } else if (id == R.id.nav_slideshow) {
@@ -172,8 +181,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(chooseIntent);
     }
 
-    public void onBookmarkClick(){
+    public void onBookmarkClick(View view){
+        //dummy hash for now as this will be brought in from JSON
+        String hash = "46hfgkld99";
+        //get title textview
+        TextView titleTextView = (TextView)findViewById(R.id.titleText);
+        //convert titletextview's value to a string then save in a variable
+        String title = titleTextView.getText().toString();
+        //dummy string url as this will come from JSON eventually
+        String imgUrl = "http://indianapublicmedia.org/billmurray.png";
+        //dummy date as this will be gathered from JSON
+        SimpleDateFormat today = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat pubDate = today;
+        //dummy author
+        String author = "Hercules the Goat";
+        //dummy body
+        String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
+        Story story = new Story(hash, title, imgUrl, pubDate, author, body);
+        StoryDBHandler dbLink = new StoryDBHandler(this);
+        dbLink.bookmarkStory(story);
 
+        //test toast
+        //Toast.makeText(this, "the function executed", Toast.LENGTH_SHORT).show();
     }
 
 }

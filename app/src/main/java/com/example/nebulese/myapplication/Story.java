@@ -1,24 +1,25 @@
 package com.example.nebulese.myapplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Story {
     private String hash;
     private String title;
     private String imgUrl;
-    private Date pubDate;
+    private SimpleDateFormat pubDate;
     private String author;
     private String body;
     private int bmarked;
     private int shared;
-    private Date shareDate;
+    private SimpleDateFormat shareDate;
     private String shareMethod;
 
     public Story(String title, String imgUrl){
 
     }
 
-    public Story(String hash, String title, String imgUrl, Date pubDate, String author, String body) {
+    public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body) {
         this.hash = hash;
         this.title = title;
         this.imgUrl = imgUrl;
@@ -27,7 +28,7 @@ public class Story {
         this.body = body;
     }
 
-    public Story(String hash, String title, String imgUrl, Date pubDate, String author, String body, int bmarked) {
+    public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body, int bmarked) {
         this.hash = hash;
         this.title = title;
         this.imgUrl = imgUrl;
@@ -37,7 +38,7 @@ public class Story {
         this.bmarked = bmarked;
     }
 
-    public Story(String hash, String title, int shared, Date shareDate, String shareMethod) {
+    public Story(String hash, String title, int shared, SimpleDateFormat shareDate, String shareMethod) {
         this.hash = hash;
         this.title = title;
         this.shared = shared;
@@ -53,7 +54,7 @@ public class Story {
         return title;
     }
 
-    public Date getPubDate() {
+    public SimpleDateFormat getPubDate() {
         return pubDate;
     }
 
@@ -75,7 +76,7 @@ public class Story {
         return shared;
     }
 
-    public Date getShareDate() {
+    public SimpleDateFormat getShareDate() {
         return shareDate;
     }
 
@@ -95,7 +96,7 @@ public class Story {
         this.title = title;
     }
 
-    public void setPubDate(Date pubDate) {
+    public void setPubDate(SimpleDateFormat pubDate) {
         this.pubDate = pubDate;
     }
 
@@ -115,7 +116,7 @@ public class Story {
         this.shared = 1;
     }
 
-    public void setShareDate(Date shareDate) {
+    public void setShareDate(SimpleDateFormat shareDate) {
         this.shareDate = shareDate;
     }
 
@@ -127,5 +128,4 @@ public class Story {
         this.imgUrl = imgUrl;
     }
 
-    
 }

@@ -35,17 +35,17 @@ public class StoryDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         String CREATE_STORIES_TABLE = "CREATE TABLE " +
                 TABLE_STORIES + "(" +
-                COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_HASH + "TEXT, " +
-                COLUMN_TITLE + "TEXT, " +
-                COLUMN_IMG_URL + "TEXT, " +
-                COLUMN_PUB_DATE + "DATETIME, " +
-                COLUMN_AUTHOR + "TEXT, " +
-                COLUMN_BODY + "TEXT, " +
-                COLUMN_SHARED + "INTEGER, " +
-                COLUMN_BMARKED + "INTEGER, " +
-                COLUMN_SHARE_DATE + "DATETIME, " +
-                COLUMN_SHARE_METHOD + "TEXT)";
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_HASH + " TEXT, " +
+                COLUMN_TITLE + " TEXT, " +
+                COLUMN_IMG_URL + " TEXT, " +
+                COLUMN_PUB_DATE + " DATETIME, " +
+                COLUMN_AUTHOR + " TEXT, " +
+                COLUMN_BODY + " TEXT, " +
+                COLUMN_SHARED + " INTEGER, " +
+                COLUMN_BMARKED + " INTEGER, " +
+                COLUMN_SHARE_DATE + " DATETIME, " +
+                COLUMN_SHARE_METHOD + " TEXT)";
 
         db.execSQL(CREATE_STORIES_TABLE);
     }
@@ -58,9 +58,9 @@ public class StoryDBHandler extends SQLiteOpenHelper {
 
     public void bookmarkStory(Story story){
         ContentValues values = new ContentValues();
-        //values.put(COLUMN_HASH, story.getHash());
+        values.put(COLUMN_HASH, story.getHash());
         values.put(COLUMN_TITLE, story.getTitle());
-        values.put(COLUMN_PUB_DATE, dateFormat.format(story.getPubDate()));
+        values.put(COLUMN_PUB_DATE, story.getPubDate().toString());
         values.put(COLUMN_AUTHOR, story.getAuthor());
         values.put(COLUMN_BODY, story.getBody());
         values.put(COLUMN_BMARKED, story.isBmarked());
