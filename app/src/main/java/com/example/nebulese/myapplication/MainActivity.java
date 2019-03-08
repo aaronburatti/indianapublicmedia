@@ -197,8 +197,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String author = "Hercules the Goat";
         //dummy body
         String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
+        //create the object with above data
         Story story = new Story(hash, title, imgUrl, pubDate, author, body);
+        //new db object
         StoryDBHandler dbLink = new StoryDBHandler(this);
+        //place the story into the db
         dbLink.bookmarkStory(story);
 
         //test toast

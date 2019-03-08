@@ -17,20 +17,24 @@ and this walk through implementation: https://medium.com/@harivigneshjayapalan/a
 */
 
 public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAdapter.StoriesHolder> {
-    private LayoutInflater inflater;
+    //register all lists, views, and classes needed globally
     ArrayList<Story> list = new ArrayList<>();
     View view;
+    LayoutInflater inflater;
     BmarkedStoriesAdapter.StoriesHolder holder;
     private Context context;
     public ImageView bmarkedStoryImage;
     public TextView bmarkedStoryTitle;
 
     public BmarkedStoriesAdapter(Context context, ArrayList<Story> list){
+        //constructor consuming the context, inflater, and list
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.list = list;
     }
 
+    //inner class to process the inflated view and make everything clickable
+    //in the future this will bring up the whole of the bookmarked story
     public static class StoriesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private LayoutInflater inflater;
         public ImageView bmarkedStoryImage;
@@ -51,8 +55,11 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
 
     @Override
     public StoriesHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        //inflate the single bookmarked story view
         view = inflater.inflate(R.layout.bmarked_story_row, parent, false);
+        //pass it to the holder
         holder = new StoriesHolder((ViewGroup) view);
+        //get the image and text view
         bmarkedStoryTitle = (TextView) view.findViewById(R.id.bmarkedStoryTitle);
         bmarkedStoryImage = (ImageView) view.findViewById(R.id.bmarkedStoryImage);
         return holder;
@@ -60,19 +67,17 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
 
     @Override
     public void onBindViewHolder(StoriesHolder holder, int index){
+        //get the view at each index
         Story storyList = list.get(index);
-        Log.i("adapter", "title = " + storyList.getTitle());
+        //set the image and text
         bmarkedStoryTitle.setText(storyList.getTitle());
         bmarkedStoryImage.setImageResource(R.mipmap.storyleadicon);
     }
 
+    //in case the list size is needed
     @Override
     public int getItemCount(){
         return list.size();
     }
 
-    public void setArray(ArrayList<Story> list){
-        this.list = list;
-        notifyItemRangeChanged(0, list.size());
-    }
 }
