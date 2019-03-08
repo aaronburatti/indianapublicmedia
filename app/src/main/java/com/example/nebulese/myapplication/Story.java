@@ -16,7 +16,8 @@ public class Story {
     private String shareMethod;
 
     public Story(String title, String imgUrl){
-
+        this.title = title;
+        this.imgUrl = imgUrl;
     }
 
     public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body) {

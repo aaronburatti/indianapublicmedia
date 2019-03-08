@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -25,9 +26,14 @@ public class BmarkedStories extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         // make sure the layout is linear and attached to the recycler
         layoutManager = new LinearLayoutManager(this);
+        dbHandler = new StoryDBHandler(this);
         recyclerView.setLayoutManager(layoutManager);
         storyList = dbHandler.getBookmarkedStories();
-        adapter.setArray(storyList);
+        for (int i = 0; i < storyList.size(); i++) {
+            Log.i("bmarked activity", "story index = " + i + " details = " + storyList.get(i).getTitle());
+        }
+        adapter = new BmarkedStoriesAdapter(this, storyList);
+//        adapter.setArray(storyList);
         recyclerView.setAdapter(adapter);
     }
 

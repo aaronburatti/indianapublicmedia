@@ -31,6 +31,9 @@
             android:name=".Radio"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".BmarkedStories"
+            android:label="IPM"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

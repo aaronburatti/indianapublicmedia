@@ -2,6 +2,7 @@ package com.example.nebulese.myapplication;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,13 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
     View view;
     BmarkedStoriesAdapter.StoriesHolder holder;
     private Context context;
+    public ImageView bmarkedStoryImage;
+    public TextView bmarkedStoryTitle;
 
-    public BmarkedStoriesAdapter(Context context){
+    public BmarkedStoriesAdapter(Context context, ArrayList<Story> list){
         this.context = context;
         inflater = LayoutInflater.from(context);
+        this.list = list;
     }
 
     public static class StoriesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -35,9 +39,6 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         public StoriesHolder(ViewGroup v){
             super(v);
             v.setOnClickListener(this);
-            View view = inflater.inflate(R.layout.bmarked_story_row, v, false);
-            bmarkedStoryTitle = (TextView) view.findViewById(R.id.bmarkedStoryTitle);
-            bmarkedStoryImage = (ImageView) view.findViewById(R.id.bmarkedStoryImage);
         }
 
         @Override
@@ -52,14 +53,17 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
     public StoriesHolder onCreateViewHolder(ViewGroup parent, int viewType){
         view = inflater.inflate(R.layout.bmarked_story_row, parent, false);
         holder = new StoriesHolder((ViewGroup) view);
+        bmarkedStoryTitle = (TextView) view.findViewById(R.id.bmarkedStoryTitle);
+        bmarkedStoryImage = (ImageView) view.findViewById(R.id.bmarkedStoryImage);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(StoriesHolder holder, int index){
         Story storyList = list.get(index);
-        holder.bmarkedStoryTitle.setText(storyList.getTitle());
-        holder.bmarkedStoryImage.setImageResource(R.mipmap.storyleadicon);
+        Log.i("adapter", "title = " + storyList.getTitle());
+        bmarkedStoryTitle.setText(storyList.getTitle());
+        bmarkedStoryImage.setImageResource(R.mipmap.storyleadicon);
     }
 
     @Override

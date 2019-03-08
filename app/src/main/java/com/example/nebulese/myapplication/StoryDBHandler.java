@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_AUTHOR, story.getAuthor());
         values.put(COLUMN_BODY, story.getBody());
         values.put(COLUMN_BMARKED, story.isBmarked());
-
+        Log.i("db", "new story details = " + story.getTitle());
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_STORIES, null, values);
         db.close();
@@ -75,12 +76,15 @@ public class StoryDBHandler extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_BMARKED + " = 1";
         SQLiteDatabase db = this.getWritableDatabase();
-        Story story = null;
         Cursor cursor = db.rawQuery(query, null);
 
         if(cursor.moveToFirst()){
             do{
-                storyList.add(new Story(cursor.getString(2), cursor.getString(3)));
+                Log.i("db", "cursor details = " + cursor.getString(2));
+                Log.i("db", "cursor details = " + cursor.getString(3));
+                Story story = new Story(cursor.getString(2), cursor.getString(3));
+
+                storyList.add(story);
             } while(cursor.moveToNext());
         }
 
