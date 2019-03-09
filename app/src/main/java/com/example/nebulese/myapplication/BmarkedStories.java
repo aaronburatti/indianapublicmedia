@@ -8,8 +8,14 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class BmarkedStories extends AppCompatActivity {
+/*
+This is directly from the android developer docs: https://developer.android.com/guide/topics/ui/layout/recyclerview#java
+with a few modifications to utilize an arraylist and not am array of strings as shown in the docs
+*/
 
+
+public class BmarkedStories extends AppCompatActivity {
+    //instantiate the classes and list needed
     BmarkedStoriesAdapter adapter;
     StoryDBHandler dbHandler;
     private RecyclerView recyclerView;
@@ -20,20 +26,22 @@ public class BmarkedStories extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_bmarked_stories);
+        //get the view to be recycled for each item
         recyclerView = (RecyclerView) findViewById(R.id.bmarkedStories);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
         // make sure the layout is linear and attached to the recycler
         layoutManager = new LinearLayoutManager(this);
+        //db object instance
         dbHandler = new StoryDBHandler(this);
+        //attach the layout manager to the reused view
         recyclerView.setLayoutManager(layoutManager);
+        //get all bookmarked stories and add them to the list
         storyList = dbHandler.getBookmarkedStories();
-        for (int i = 0; i < storyList.size(); i++) {
-            Log.i("bmarked activity", "story index = " + i + " details = " + storyList.get(i).getTitle());
-        }
+        //put the list in the adapter
         adapter = new BmarkedStoriesAdapter(this, storyList);
-//        adapter.setArray(storyList);
+        //attach the adapter to the recycler view
         recyclerView.setAdapter(adapter);
     }
 
