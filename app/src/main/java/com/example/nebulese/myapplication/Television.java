@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Radio extends AppCompatActivity {
+public class Television extends AppCompatActivity {
     //set the flag which looks for a created state and brings it to the
     //front of the stack
     private static final int flag = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
@@ -19,12 +19,11 @@ public class Radio extends AppCompatActivity {
     MenuItem action_wfiu;
     MenuItem action_wtiu;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_radio);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_television);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //make sure these gui components are available when activity starts
@@ -82,6 +81,5 @@ public class Radio extends AppCompatActivity {
         }
 
     }
-
 
 }
