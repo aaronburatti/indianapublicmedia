@@ -43,7 +43,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
             super(v);
             v.setOnClickListener(this);
         }
-        
+
         @Override
         public void onClick(View view){
 
