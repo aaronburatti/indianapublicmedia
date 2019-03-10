@@ -20,7 +20,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "ID";
     private static final String COLUMN_HASH = "Hash";
     private static final String COLUMN_TITLE = "Title";
-    private static final String COLUMN_IMG_URL = "Img_Title";
+    private static final String COLUMN_IMG_URL = "Img_URL";
     private static final String COLUMN_PUB_DATE = "Pub_Date";
     private static final String COLUMN_AUTHOR = "Author";
     private static final String COLUMN_BODY = "Body";
