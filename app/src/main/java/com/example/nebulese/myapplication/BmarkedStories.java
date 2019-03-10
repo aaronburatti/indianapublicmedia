@@ -47,11 +47,20 @@ public class BmarkedStories extends AppCompatActivity {
     }
 
     public void onDeleteBmarkedStoryClick(View view){
+        //get recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.bmarkedStories);
+        //find the recyclerview item position
         int itemPosition = recyclerView.getChildLayoutPosition(view);
+        //get the story id of that item
         int storyID = storyList.get(itemPosition).getStoryID();
+        //open the db
         dbHandler = new StoryDBHandler(this);
+        //delete that bad boy
         dbHandler.deleteBookmarkedStory(storyID);
+        //close the db connection
+        dbHandler.close();
+        //delete item from the storylist
+        storyList.remove(itemPosition);
     }
 
 }
