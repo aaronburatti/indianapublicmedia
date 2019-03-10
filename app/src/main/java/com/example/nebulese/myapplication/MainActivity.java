@@ -155,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //have at the ready if state persistence is needed across activity
     @Override
     protected void onResume(){
-
         super.onResume();
     }
 

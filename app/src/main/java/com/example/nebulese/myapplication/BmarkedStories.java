@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,14 @@ public class BmarkedStories extends AppCompatActivity {
         adapter = new BmarkedStoriesAdapter(this, storyList);
         //attach the adapter to the recycler view
         recyclerView.setAdapter(adapter);
+    }
+
+    public void onDeleteBmarkedStoryClick(View view){
+        recyclerView = (RecyclerView) findViewById(R.id.bmarkedStories);
+        int itemPosition = recyclerView.getChildLayoutPosition(view);
+        int storyID = storyList.get(itemPosition).getStoryID();
+        dbHandler = new StoryDBHandler(this);
+        dbHandler.deleteBookmarkedStory(storyID);
     }
 
 }

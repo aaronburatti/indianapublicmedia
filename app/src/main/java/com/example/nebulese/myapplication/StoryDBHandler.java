@@ -93,7 +93,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 //loop through all returned rows, create a story object, and place in the list
-                Story story = new Story(cursor.getString(2), cursor.getString(3));
+                Story story = new Story(cursor.getInt(0),cursor.getString(2), cursor.getString(3));
                 storyList.add(story);
                 //this will execute at least once and until there are no more rows returned
             } while(cursor.moveToNext());
@@ -106,9 +106,23 @@ public class StoryDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteBookmarkedStory(){
+    public boolean deleteBookmarkedStory(int storyID){
         boolean result = false;
+        //build the query
+        String query = "SELECT * FROM " + TABLE_STORIES + " WHERE " + COLUMN_ID + " =\"" + storyID + "\"";
+        //create instance of the db
+        SQLiteDatabase db = this.getWritableDatabase();
+        //create cursor and store the query boolean result
+        Cursor cursor = db.rawQuery(query, null);
 
+        if(cursor.moveToFirst()){
+            //create empty var to represent the entered storyID
+            int tmpID = cursor.getInt(0);
+
+            db.delete(TABLE_STORIES, COLUMN_ID + " = ?", new String[]{String.valueOf(tmpID)});
+            cursor.close();
+            result = true;
+        }
 
         return result;
     }

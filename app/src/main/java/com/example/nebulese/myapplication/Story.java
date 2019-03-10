@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Story {
+    private int storyID;
     private String hash;
     private String title;
     private String imgUrl;
@@ -15,7 +16,8 @@ public class Story {
     private SimpleDateFormat shareDate;
     private String shareMethod;
 
-    public Story(String title, String imgUrl){
+    public Story(int ID, String title, String imgUrl){
+        this.storyID = ID;
         this.title = title;
         this.imgUrl = imgUrl;
     }
@@ -127,6 +129,22 @@ public class Story {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public int getStoryID() {
+        return storyID;
+    }
+
+    public void setStoryID(int storyID) {
+        this.storyID = storyID;
+    }
+
+    public int getBmarked() {
+        return bmarked;
+    }
+
+    public int getShared() {
+        return shared;
     }
 
 }
