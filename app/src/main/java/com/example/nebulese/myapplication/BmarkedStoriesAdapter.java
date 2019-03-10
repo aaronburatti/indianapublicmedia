@@ -43,8 +43,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
             super(v);
             v.setOnClickListener(this);
         }
-        //this brings up the story view and populates the fields
-        //with story object data
+        
         @Override
         public void onClick(View view){
 
