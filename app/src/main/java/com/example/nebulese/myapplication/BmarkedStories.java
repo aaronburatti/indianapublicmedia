@@ -63,4 +63,5 @@ public class BmarkedStories extends AppCompatActivity {
         storyList.remove(itemPosition);
     }
 
+
 }
