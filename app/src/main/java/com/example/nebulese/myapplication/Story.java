@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Story {
+    private int storyID;
     private String hash;
     private String title;
     private String imgUrl;
@@ -15,11 +16,14 @@ public class Story {
     private SimpleDateFormat shareDate;
     private String shareMethod;
 
-    public Story(String title, String imgUrl){
+    //temporary constructor for lab three
+    public Story(int ID, String title, String imgUrl){
+        this.storyID = ID;
         this.title = title;
         this.imgUrl = imgUrl;
     }
 
+    //constructor for creating a full story from JSON
     public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body) {
         this.hash = hash;
         this.title = title;
@@ -29,6 +33,7 @@ public class Story {
         this.body = body;
     }
 
+    //full constructor for bookmarked story, once JSON Data is around
     public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body, int bmarked) {
         this.hash = hash;
         this.title = title;
@@ -39,6 +44,7 @@ public class Story {
         this.bmarked = bmarked;
     }
 
+    //constructor for shared stories
     public Story(String hash, String title, int shared, SimpleDateFormat shareDate, String shareMethod) {
         this.hash = hash;
         this.title = title;
@@ -47,6 +53,7 @@ public class Story {
         this.shareMethod = shareMethod;
     }
 
+    //standard getters and setters
     public String getHash() {
         return hash;
     }
@@ -127,6 +134,22 @@ public class Story {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public int getStoryID() {
+        return storyID;
+    }
+
+    public void setStoryID(int storyID) {
+        this.storyID = storyID;
+    }
+
+    public int getBmarked() {
+        return bmarked;
+    }
+
+    public int getShared() {
+        return shared;
     }
 
 }

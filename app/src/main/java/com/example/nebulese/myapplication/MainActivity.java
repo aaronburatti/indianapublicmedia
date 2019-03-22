@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
 
-        //Android Studio Boilerplate Code
+        //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //Android Studio Boilerplate Code
+        //Android Studio Boilerplate Code for a Nav Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        //Android Studio Boilerplate Code
+        //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -126,10 +126,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        //Android Studio Boilerplate Code. Handle navigation view item clicks here.
+        //Android Studio Boilerplate Code for a Nav Drawer. Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_archive) {
+            //same idea as above navigation
             Intent intentArchive = new Intent(this, BmarkedStories.class);
             intentArchive.addFlags(flag);
             startActivity(intentArchive);
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        } else if (id == R.id.nav_send) {
 //
        }
-        //Android Studio Boilerplate Code
+        //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -154,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //have at the ready if state persistence is needed across activity
     @Override
     protected void onResume(){
-
         super.onResume();
     }
 
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //this method will be extended to bring up a specific story in the future
     public void onStoryImageClick(View view){
         //make a new intent with the story class
-        Intent intent = new Intent(this, NewsStories.class);
+        Intent intent = new Intent(this, Story.class);
         //send the activity
         startActivity(intent);
     }
@@ -197,15 +197,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String author = "Hercules the Goat";
         //dummy body
         String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
-        //create the object with above data
+        //create the story object
         Story story = new Story(hash, title, imgUrl, pubDate, author, body);
-        //new db object
+        //initialize db instance
         StoryDBHandler dbLink = new StoryDBHandler(this);
-        //place the story into the db
+        //put story in db
         dbLink.bookmarkStory(story);
-
-        //test toast
-        //Toast.makeText(this, "the function executed", Toast.LENGTH_SHORT).show();
+        //close connection
+        dbLink.close();
+        //so that the user doesn't become confused and annoyed
+        //show them that the addition was succesful
+        Toast.makeText(this, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
     }
 
 }
