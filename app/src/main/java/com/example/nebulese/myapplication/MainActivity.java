@@ -1,6 +1,8 @@
 package com.example.nebulese.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,9 +16,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import com.example.nebulese.myapplication.api.ResponseClass;
+import com.example.nebulese.myapplication.api.WebLink;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        new GetAPI(this).execute();
 
         //make sure everything needed is programmatically accessible
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
@@ -60,6 +67,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
+        private ProgressBar progressBar;
+        private Context context;
+        private String api = "https://indianapublicmedia.org/feeds/newsjson.json";
+
+        GetAPI(Context context){this.context = context;}
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            progressBar = new ProgressBar(context);
+            progressBar.setIndeterminate(false);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected ResponseClass doInBackground(Void... voids) {
+            ResponseClass link = new WebLink().getResponse(api);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ResponseClass response){
+            super.onPostExecute(response);
+            
+        }
     }
 
     @Override
@@ -162,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //this method will be extended to bring up a specific story in the future
     public void onStoryImageClick(View view){
         //make a new intent with the story class
-        Intent intent = new Intent(this, Story.class);
+        Intent intent = new Intent(this, NewsStories.class);
         //send the activity
         startActivity(intent);
     }

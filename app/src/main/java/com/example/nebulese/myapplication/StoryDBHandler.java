@@ -99,7 +99,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
             //later I will fetch the whole story so that if a user clicks
             //a bookmarked story, i will pass whole object to the single story view
             do{
-                Story story = new Story(cursor.getString(2), cursor.getString(3));
+                Story story = new Story(cursor.getInt(0), cursor.getString(2), cursor.getString(3));
                 storyList.add(story);
             } while(cursor.moveToNext());
         }
