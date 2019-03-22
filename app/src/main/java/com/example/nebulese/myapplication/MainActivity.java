@@ -87,13 +87,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected ResponseClass doInBackground(Void... voids) {
             ResponseClass link = new WebLink().getResponse(api);
-            return null;
+            return link;
         }
 
         @Override
         protected void onPostExecute(ResponseClass response){
             super.onPostExecute(response);
-            
+            Toast.makeText(MainActivity.this, "JSON good to go", Toast.LENGTH_SHORT).show();
+            if(response.getErrorCode() == 200){
+
+            }
+
         }
     }
 

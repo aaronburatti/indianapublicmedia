@@ -1,6 +1,7 @@
 package com.example.nebulese.myapplication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.widget.VideoView;
+
+import java.net.URI;
 
 public class Television extends AppCompatActivity {
     //set the flag which looks for a created state and brings it to the
@@ -18,6 +24,7 @@ public class Television extends AppCompatActivity {
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
+    WebView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +37,16 @@ public class Television extends AppCompatActivity {
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
+        videoView = (WebView)findViewById(R.id.vid);
+
+        videoView.getSettings().setJavaScriptEnabled(true);
+        videoView.loadUrl("https://www.youtube.com/watch?v=fm79QqgiZf8");
+        videoView.setWebChromeClient(new WebChromeClient());
+
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

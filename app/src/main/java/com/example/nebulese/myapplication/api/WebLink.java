@@ -24,8 +24,8 @@ public class WebLink {
 
         try{
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(60000);
+//            httpURLConnection.setRequestMethod("GET");
+//            httpURLConnection.setConnectTimeout(60000);
             InputStream in = new BufferedInputStream(httpURLConnection.getInputStream());
 
             response = readStream(in);
