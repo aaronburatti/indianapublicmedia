@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,9 +29,8 @@ public class Radio extends AppCompatActivity {
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
-    VideoView vid;
     ImageView img;
-
+    VideoView videoView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class Radio extends AppCompatActivity {
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
         img = (ImageView)findViewById(R.id.radioPlayButton);
-
+        videoView = (VideoView)findViewById(R.id.wfiuOne);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class Radio extends AppCompatActivity {
     }
 
     private void setUpRadioStream(View view) {
-        VideoView videoView = (VideoView)findViewById(R.id.wfiuOne);
+
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait");
         progressDialog.setCancelable(false);
@@ -109,7 +109,7 @@ public class Radio extends AppCompatActivity {
         String uri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
 
         videoView.setVideoURI(Uri.parse(uri));
-        videoView.start();
+
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -125,8 +125,17 @@ public class Radio extends AppCompatActivity {
 
 }
     public void wfiuOnePlayClick(View view){
-        setUpRadioStream(view);
-    };
+
+        Log.i("play","playing" + videoView.isPlaying());
+        if(videoView.isPlaying() == false) {
+            setUpRadioStream(view);
+            videoView.start();
+            img.setImageResource(R.mipmap.pauseicon);
+        }else if(videoView.isPlaying() == true){
+            videoView.stopPlayback();
+            img.setImageResource(R.mipmap.playicon);
+        }
+    }
 
 
 }

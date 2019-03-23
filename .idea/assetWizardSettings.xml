@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_pause_circle_outline_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -35,8 +35,10 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="backgroundLayerName" value="ic_pasue_background" />
                                       <entry key="foregroundAssetType" value="CLIP_ART" />
-                                      <entry key="outputName" value="ic_close" />
+                                      <entry key="foregroundLayerName" value="ic_pause_foreground" />
+                                      <entry key="outputName" value="pauseicon" />
                                     </map>
                                   </option>
                                 </PersistentState>
