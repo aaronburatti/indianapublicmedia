@@ -1,6 +1,8 @@
 package com.example.nebulese.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,7 +16,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
+
+import com.example.nebulese.myapplication.api.ResponseClass;
+import com.example.nebulese.myapplication.api.WebLink;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //set the flag which looks for a created state and brings it to the
@@ -35,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        new GetAPI(this).execute();
 
         //make sure everything needed is programmatically accessible
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
@@ -44,22 +56,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
 
-        //Android Studio Boilerplate Code
+        //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //Android Studio Boilerplate Code
+        //Android Studio Boilerplate Code for a Nav Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
 
+    public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
+        private ProgressBar progressBar;
+        private Context context;
+        private String api = "https://indianapublicmedia.org/feeds/newsjson.json";
+
+        GetAPI(Context context){this.context = context;}
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            progressBar = new ProgressBar(context);
+            progressBar.setIndeterminate(false);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected ResponseClass doInBackground(Void... voids) {
+            ResponseClass link = new WebLink().getResponse(api);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ResponseClass response){
+            super.onPostExecute(response);
+            
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        //Android Studio Boilerplate Code
+        //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -120,11 +160,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        //Android Studio Boilerplate Code. Handle navigation view item clicks here.
+
+        //Android Studio Boilerplate Code for a Nav Drawer. Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
+        if (id == R.id.nav_archive) {
+            //same idea as above navigation
+            Intent intentArchive = new Intent(this, BmarkedStories.class);
+            intentArchive.addFlags(flag);
+            startActivity(intentArchive);
+            return true;
 //        } else if (id == R.id.nav_gallery) {
 //
 //        } else if (id == R.id.nav_slideshow) {
@@ -135,8 +180,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        } else if (id == R.id.nav_send) {
 //
-//        }
-        //Android Studio Boilerplate Code
+       }
+        //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -145,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //have at the ready if state persistence is needed across activity
     @Override
     protected void onResume(){
-
         super.onResume();
     }
 
@@ -153,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //this method will be extended to bring up a specific story in the future
     public void onStoryImageClick(View view){
         //make a new intent with the story class
-        Intent intent = new Intent(this, Story.class);
+        Intent intent = new Intent(this, NewsStories.class);
         //send the activity
         startActivity(intent);
     }
@@ -170,6 +214,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent chooseIntent = Intent.createChooser(intent, title);
         //do it
         startActivity(chooseIntent);
+    }
+
+    public void onBookmarkClick(View view){
+        //dummy hash for now as this will be brought in from JSON
+        String hash = "46hfgkld99";
+        //get title textview
+        TextView titleTextView = (TextView)findViewById(R.id.titleText);
+        //convert titletextview's value to a string then save in a variable
+        String title = titleTextView.getText().toString();
+        //dummy string url as this will come from JSON eventually
+        String imgUrl = "http://indianapublicmedia.org/billmurray.png";
+        //dummy date as this will be gathered from JSON
+        SimpleDateFormat today = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat pubDate = today;
+        //dummy author
+        String author = "Hercules the Goat";
+        //dummy body
+        String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
+        //create the story object
+        Story story = new Story(hash, title, imgUrl, pubDate, author, body);
+        //initialize db instance
+        StoryDBHandler dbLink = new StoryDBHandler(this);
+        //put story in db
+        dbLink.bookmarkStory(story);
+        //close connection
+        dbLink.close();
+        //so that the user doesn't become confused and annoyed
+        //show them that the addition was succesful
+        Toast.makeText(this, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
     }
 
 }

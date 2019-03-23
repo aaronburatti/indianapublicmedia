@@ -26,7 +26,7 @@
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="10dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/leadImageContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,10 +41,16 @@
                     android:contentDescription="@string/place_holder"
                     android:onClick="onStoryImageClick" />
 
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="200dp"
+                    android:text="this is dummy text"
+                    android:textSize="14dp" />
 
 
-
-            </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

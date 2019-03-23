@@ -29,13 +29,19 @@
             />
 
 
+        <ImageView
+            android:onClick="onBookmarkClick"
+            android:id="@+id/bookmarkIcon"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:src="@mipmap/bookmark" />
+
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="50dp"
             >
 
 
@@ -46,6 +52,7 @@
                 android:text="@string/story_title"
                 android:textSize="20sp"
                 />
+
 
             <TextView
                 android:layout_width="match_parent"
