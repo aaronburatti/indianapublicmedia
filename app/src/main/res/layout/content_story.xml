@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Story"
+    tools:context=".activities.NewsStories"
     tools:showIn="@layout/activity_story">
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".Story"
+        tools:context=".datamodels.Story"
         tools:showIn="@layout/activity_story">
 
         <ImageView

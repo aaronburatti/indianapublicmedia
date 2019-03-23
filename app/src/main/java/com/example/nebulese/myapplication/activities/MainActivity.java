@@ -1,12 +1,10 @@
-package com.example.nebulese.myapplication;
+package com.example.nebulese.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,11 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.api.ResponseClass;
 import com.example.nebulese.myapplication.api.WebLink;
+import com.example.nebulese.myapplication.datamodels.Story;
+import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
+import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //set the flag which looks for a created state and brings it to the

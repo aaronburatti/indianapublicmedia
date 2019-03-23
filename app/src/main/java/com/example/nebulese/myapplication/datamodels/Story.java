@@ -1,4 +1,4 @@
-package com.example.nebulese.myapplication;
+package com.example.nebulese.myapplication.datamodels;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

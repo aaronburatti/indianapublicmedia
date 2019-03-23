@@ -1,13 +1,15 @@
-package com.example.nebulese.myapplication;
+package com.example.nebulese.myapplication.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.nebulese.myapplication.R;
+import com.example.nebulese.myapplication.datamodels.Story;
 
 import java.util.ArrayList;
 
