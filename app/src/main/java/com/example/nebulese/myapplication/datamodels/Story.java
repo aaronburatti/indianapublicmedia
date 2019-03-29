@@ -16,6 +16,10 @@ public class Story {
     private SimpleDateFormat shareDate;
     private String shareMethod;
 
+    public Story(){
+
+    }
+
     //temporary constructor for lab three
     public Story(int ID, String title, String imgUrl){
         this.storyID = ID;

@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,11 @@ import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //set the flag which looks for a created state and brings it to the
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
+    TextView titleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
+        titleText = (TextView)findViewById(R.id.titleText);
 
         //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -70,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
+    public class GetAPI extends AsyncTask<Void, Void, ArrayList> {
         private ProgressBar progressBar;
         private Context context;
         private String api = "https://indianapublicmedia.org/feeds/newsjson.json";
@@ -86,14 +93,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         @Override
-        protected ResponseClass doInBackground(Void... voids) {
-            ResponseClass link = new WebLink().getResponse(api);
-            return null;
+        protected ArrayList doInBackground(Void... voids) {
+            ArrayList link = new WebLink().getResponse(api);
+            return link;
         }
 
         @Override
-        protected void onPostExecute(ResponseClass response){
-            super.onPostExecute(response);
+        protected void onPostExecute(ArrayList link){
+            super.onPostExecute(link);
+//            if(link != null){
+//                try {
+//                    JSONObject json = new JSONObject();
+//                    //Log.i("tttt", "eeeee" + json.getString("title"));
+//                    //titleText.setText(json.getString("title"));
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
             
         }
     }
