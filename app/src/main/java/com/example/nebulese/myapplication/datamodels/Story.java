@@ -8,12 +8,12 @@ public class Story {
     private String hash;
     private String title;
     private String imgUrl;
-    private SimpleDateFormat pubDate;
+    private String pubDate;
     private String author;
     private String body;
     private int bmarked;
     private int shared;
-    private SimpleDateFormat shareDate;
+    private String shareDate;
     private String shareMethod;
 
     public Story(){
@@ -28,7 +28,7 @@ public class Story {
     }
 
     //constructor for creating a full story from JSON
-    public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body) {
+    public Story(String hash, String title, String imgUrl, String pubDate, String author, String body) {
         this.hash = hash;
         this.title = title;
         this.imgUrl = imgUrl;
@@ -38,7 +38,7 @@ public class Story {
     }
 
     //full constructor for bookmarked story, once JSON Data is around
-    public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body, int bmarked) {
+    public Story(String hash, String title, String imgUrl, String pubDate, String author, String body, int bmarked) {
         this.hash = hash;
         this.title = title;
         this.imgUrl = imgUrl;
@@ -49,7 +49,7 @@ public class Story {
     }
 
     //constructor for shared stories
-    public Story(String hash, String title, int shared, SimpleDateFormat shareDate, String shareMethod) {
+    public Story(String hash, String title, int shared, String shareDate, String shareMethod) {
         this.hash = hash;
         this.title = title;
         this.shared = shared;
@@ -66,7 +66,7 @@ public class Story {
         return title;
     }
 
-    public SimpleDateFormat getPubDate() {
+    public String getPubDate() {
         return pubDate;
     }
 
@@ -88,7 +88,7 @@ public class Story {
         return shared;
     }
 
-    public SimpleDateFormat getShareDate() {
+    public String getShareDate() {
         return shareDate;
     }
 
@@ -108,7 +108,7 @@ public class Story {
         this.title = title;
     }
 
-    public void setPubDate(SimpleDateFormat pubDate) {
+    public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
 
@@ -128,7 +128,7 @@ public class Story {
         this.shared = 1;
     }
 
-    public void setShareDate(SimpleDateFormat shareDate) {
+    public void setShareDate(String shareDate) {
         this.shareDate = shareDate;
     }
 

@@ -100,8 +100,8 @@ public class NewsStories extends AppCompatActivity {
         //dummy string url as this will come from JSON eventually
         String imgUrl = "http://indianapublicmedia.org/billmurray.png";
         //dummy date as this will be gathered from JSON
-        SimpleDateFormat today = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat pubDate = today;
+
+        String pubDate = "03/29/19";
         //dummy author
         String author = "Hercules the Goat";
         //dummy body

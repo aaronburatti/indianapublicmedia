@@ -2,6 +2,7 @@ package com.example.nebulese.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -26,7 +27,9 @@ import com.example.nebulese.myapplication.api.WebLink;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,12 +43,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //register the clickable components
     ImageButton leadImageButton;
     ImageButton shareImageButton;
+    ImageButton leadImageButton2;
+    ImageButton shareImageButton2;
     VideoView videoView;
     //register the menu items
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
     TextView titleText;
+    TextView titleText2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +64,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //make sure everything needed is programmatically accessible
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
         shareImageButton = (ImageButton)findViewById(R.id.shareIcon);
+        titleText = (TextView)findViewById(R.id.titleText);
+        leadImageButton2 = (ImageButton)findViewById(R.id.leadImage2);
+        shareImageButton2 = (ImageButton)findViewById(R.id.shareIcon2);
+        titleText2 = (TextView)findViewById(R.id.titleText2);
         videoView = (VideoView)findViewById(R.id.videoStory);
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
-        titleText = (TextView)findViewById(R.id.titleText);
+
 
         //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -77,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public class GetAPI extends AsyncTask<Void, Void, ArrayList> {
+    public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
         private ProgressBar progressBar;
         private Context context;
         private String api = "https://indianapublicmedia.org/feeds/newsjson.json";
@@ -93,24 +103,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         @Override
-        protected ArrayList doInBackground(Void... voids) {
-            ArrayList link = new WebLink().getResponse(api);
+        protected ResponseClass doInBackground(Void... voids) {
+            ResponseClass link = new WebLink().getResponse(api);
             return link;
         }
 
         @Override
-        protected void onPostExecute(ArrayList link){
+        protected void onPostExecute(ResponseClass link){
             super.onPostExecute(link);
-//            if(link != null){
-//                try {
-//                    JSONObject json = new JSONObject();
-//                    //Log.i("tttt", "eeeee" + json.getString("title"));
-//                    //titleText.setText(json.getString("title"));
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(link.getmMessaage());
+                JSONArray jsonArray = jsonObject.getJSONArray("stories");
+                ArrayList<Story> jsonStoriesList = new ArrayList<>();
+                for(int i = 0; i < jsonArray.length(); i++){
+                    Story story = new Story();
+                    story.setTitle(jsonArray.getJSONObject(i).getString("title"));
+                    story.setHash(jsonArray.getJSONObject(i).getString("id"));
+                    story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
+                    story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
+                    story.setBody(jsonArray.getJSONObject(i).getString("story"));
+                    jsonStoriesList.add(story);
+                }
+
+                titleText.setText(jsonStoriesList.get(0).getTitle());
+                Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
+                titleText2.setText(jsonStoriesList.get(1).getTitle());
+                Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             
         }
     }
@@ -244,8 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //dummy string url as this will come from JSON eventually
         String imgUrl = "http://indianapublicmedia.org/billmurray.png";
         //dummy date as this will be gathered from JSON
-        SimpleDateFormat today = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat pubDate = today;
+        String pubDate = "06/7/19";
         //dummy author
         String author = "Hercules the Goat";
         //dummy body

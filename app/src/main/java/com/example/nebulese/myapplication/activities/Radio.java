@@ -16,10 +16,7 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.example.nebulese.myapplication.R;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 
-import java.net.URI;
 
 public class Radio extends AppCompatActivity {
     //set the flag which looks for a created state and brings it to the
