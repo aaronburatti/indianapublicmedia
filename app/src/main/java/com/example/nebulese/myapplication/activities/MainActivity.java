@@ -65,9 +65,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
         shareImageButton = (ImageButton)findViewById(R.id.shareIcon);
         titleText = (TextView)findViewById(R.id.titleText);
+
+        //these are for demonstration. I should implement a recyclerview for more
+        //story objects
         leadImageButton2 = (ImageButton)findViewById(R.id.leadImage2);
         shareImageButton2 = (ImageButton)findViewById(R.id.shareIcon2);
         titleText2 = (TextView)findViewById(R.id.titleText2);
+
+
         videoView = (VideoView)findViewById(R.id.videoStory);
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    //async request handler running off of the main thread
     public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
         private ProgressBar progressBar;
         private Context context;
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
+            //show a progress bar as the app loads data
             progressBar = new ProgressBar(context);
             progressBar.setIndeterminate(false);
             progressBar.setVisibility(View.VISIBLE);
@@ -104,28 +111,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected ResponseClass doInBackground(Void... voids) {
+            //call the method that handles the request and passes back the data
             ResponseClass link = new WebLink().getResponse(api);
+            //return the result
             return link;
         }
 
         @Override
         protected void onPostExecute(ResponseClass link){
+            //accept the result of doInBackground
             super.onPostExecute(link);
             JSONObject jsonObject = null;
             try {
+                //pull the data out of response object and put it in jsonobject
                 jsonObject = new JSONObject(link.getmMessaage());
+                //turn that into a json array
                 JSONArray jsonArray = jsonObject.getJSONArray("stories");
+                //get the arraylist ready
                 ArrayList<Story> jsonStoriesList = new ArrayList<>();
                 for(int i = 0; i < jsonArray.length(); i++){
+                    //declare a new story
                     Story story = new Story();
+                    //get the data out of the array and pass it to the story object
                     story.setTitle(jsonArray.getJSONObject(i).getString("title"));
                     story.setHash(jsonArray.getJSONObject(i).getString("id"));
                     story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
                     story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
+                    //put the story in the list
                     jsonStoriesList.add(story);
                 }
 
+                //display the title and image for the first two story objects
                 titleText.setText(jsonStoriesList.get(0).getTitle());
                 Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
                 titleText2.setText(jsonStoriesList.get(1).getTitle());

@@ -28,6 +28,7 @@ public class Radio extends AppCompatActivity {
     MenuItem action_wtiu;
     ImageView img;
     VideoView videoView;
+    //set the initial radio station to wfiu one
     private String radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
 
     @Override
@@ -98,22 +99,22 @@ public class Radio extends AppCompatActivity {
     }
 
     private void setUpRadioStream(View view, String radioUri) {
-        Log.i("rad", "uri" + radioUri);
 
+        //show a progress bar
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        //new mc
         MediaController mediaController = new MediaController(this);
+        //attach it to the videoview
         mediaController.setAnchorView(videoView);
+        //complete the two way handshake
         videoView.setMediaController(mediaController);
-
-        //String uri = "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8";
-
+        //process the uri parameter
         videoView.setVideoURI(Uri.parse(radioUri));
-
-
+        //clear the progress bar
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -123,29 +124,37 @@ public class Radio extends AppCompatActivity {
 
     });
 
-
-
-
 }
+    //when pause/play button is clicked
     public void wfiuOnePlayClick(View view){
 
-        Log.i("play","playing" + videoView.isPlaying());
+       //if it is playing
         if(videoView.isPlaying() == false) {
+            //process the uri as a radio stream
             setUpRadioStream(view, radioUri);
+            //start the video view player
             videoView.start();
+            //replace the play button with a pause button
             img.setImageResource(R.mipmap.pauseicon);
         }else if(videoView.isPlaying() == true){
+            //stop the stream when pause button is clicked
             videoView.stopPlayback();
+            //replace pause button with a play button
             img.setImageResource(R.mipmap.playicon);
         }
     }
 
+    //when the next button is pushed
     public void radioNextButton(View view) {
+        //if the radio is streaming wfiu2
         if(radioUri == "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8"){
+            //set uri to wfiu one
             radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
+            //start the player
             setUpRadioStream(view, radioUri);
             videoView.start();
         }else {
+            //do the opposite of above
             radioUri = "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8";
             setUpRadioStream(view, radioUri);
             videoView.start();
