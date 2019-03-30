@@ -8,8 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.nebulese.myapplication.R;
+//import com.google.android.youtube.player.YouTubeBaseActivity;
+//import com.google.android.youtube.player.YouTubeInitializationResult;
+//import com.google.android.youtube.player.YouTubePlayer;
+//import com.google.android.youtube.player.YouTubePlayer.Provider;
+//import com.google.android.youtube.player.YouTubePlayerView;
 
-public class Television extends AppCompatActivity {
+public class Television extends AppCompatActivity /*YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener*/ {
     //set the flag which looks for a created state and brings it to the
     //front of the stack
     private static final int flag = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
@@ -80,5 +85,35 @@ public class Television extends AppCompatActivity {
         }
 
     }
+
+
+//    @Override
+//    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+//        if (!wasRestored) {
+//            player.cueVideo("fhWaJi1Hsfo"); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
+//        }
+//    }
+//
+//    @Override
+//    public void onInitializationFailure(Provider provider, YouTubeInitializationResult errorReason) {
+//        if (errorReason.isUserRecoverableError()) {
+//            errorReason.getErrorDialog(this, RECOVERY_REQUEST).show();
+//        } else {
+//            String error = String.format(getString(R.string.player_error), errorReason.toString());
+//            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+//        }
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == RECOVERY_REQUEST) {
+//            // Retry initialization if user performed a recovery action
+//            getYouTubePlayerProvider().initialize(Config.YOUTUBE_API_KEY, this);
+//        }
+//    }
+//
+//    protected Provider getYouTubePlayerProvider() {
+//        return youTubeView;
+//    }
 
 }
