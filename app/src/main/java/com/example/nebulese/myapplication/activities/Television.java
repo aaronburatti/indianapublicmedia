@@ -23,6 +23,10 @@ public class Television extends AppCompatActivity /*YouTubeBaseActivity implemen
     MenuItem action_wfiu;
     MenuItem action_wtiu;
 
+    //youtube
+//    private static final int RECOVERY_REQUEST = 1;
+//    private YouTubePlayerView youTubeView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,10 @@ public class Television extends AppCompatActivity /*YouTubeBaseActivity implemen
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
+
+        //youtube
+//        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
+//        youTubeView.initialize(Config.YOUTUBE_API_KEY, this);
 
     }
 
@@ -89,6 +97,7 @@ public class Television extends AppCompatActivity /*YouTubeBaseActivity implemen
 
 //    @Override
 //    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+        //load a video by default
 //        if (!wasRestored) {
 //            player.cueVideo("fhWaJi1Hsfo"); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
 //        }
@@ -96,6 +105,7 @@ public class Television extends AppCompatActivity /*YouTubeBaseActivity implemen
 //
 //    @Override
 //    public void onInitializationFailure(Provider provider, YouTubeInitializationResult errorReason) {
+            //handle the errors
 //        if (errorReason.isUserRecoverableError()) {
 //            errorReason.getErrorDialog(this, RECOVERY_REQUEST).show();
 //        } else {
@@ -107,7 +117,7 @@ public class Television extends AppCompatActivity /*YouTubeBaseActivity implemen
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == RECOVERY_REQUEST) {
-//            // Retry initialization if user performed a recovery action
+//            // Re-initialize if user performed a recovery action
 //            getYouTubePlayerProvider().initialize(Config.YOUTUBE_API_KEY, this);
 //        }
 //    }
