@@ -1,5 +1,11 @@
 package com.example.nebulese.myapplication.api;
 
+/*
+
+simple class to handle server responses and handle api messages
+
+*/
+
 public class ResponseClass {
     int ErrorCode;
     String onErrorMessage;
