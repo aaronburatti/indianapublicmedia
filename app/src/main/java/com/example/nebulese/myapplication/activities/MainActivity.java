@@ -2,6 +2,8 @@ package com.example.nebulese.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
+
+        //drawable resources
 
 
         //Android Studio Boilerplate Code for a Nav Drawer
@@ -145,8 +150,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //display the title and image for the first two story objects
                 titleText.setText(jsonStoriesList.get(0).getTitle());
                 Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
+                leadImageButton.setTag(jsonStoriesList.get(0));
                 titleText2.setText(jsonStoriesList.get(1).getTitle());
                 Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
+                leadImageButton2.setTag(jsonStoriesList.get(1));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -257,6 +264,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onStoryImageClick(View view){
         //make a new intent with the story class
         Intent intent = new Intent(this, NewsStories.class);
+
+        Story story = (Story)leadImageButton.getTag();
+        intent.putExtra("story", story);
         //send the activity
         startActivity(intent);
     }

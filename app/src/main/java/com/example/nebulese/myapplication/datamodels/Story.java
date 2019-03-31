@@ -1,9 +1,12 @@
 package com.example.nebulese.myapplication.datamodels;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Story {
+public class Story implements Parcelable {
     private int storyID;
     private String hash;
     private String title;
@@ -156,4 +159,51 @@ public class Story {
         return shared;
     }
 
+
+    protected Story(Parcel in) {
+        storyID = in.readInt();
+        hash = in.readString();
+        title = in.readString();
+        imgUrl = in.readString();
+        pubDate = in.readString();
+        author = in.readString();
+        body = in.readString();
+        bmarked = in.readInt();
+        shared = in.readInt();
+        shareDate = in.readString();
+        shareMethod = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(storyID);
+        dest.writeString(hash);
+        dest.writeString(title);
+        dest.writeString(imgUrl);
+        dest.writeString(pubDate);
+        dest.writeString(author);
+        dest.writeString(body);
+        dest.writeInt(bmarked);
+        dest.writeInt(shared);
+        dest.writeString(shareDate);
+        dest.writeString(shareMethod);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Story> CREATOR = new Parcelable.Creator<Story>() {
+        @Override
+        public Story createFromParcel(Parcel in) {
+            return new Story(in);
+        }
+
+        @Override
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
 }

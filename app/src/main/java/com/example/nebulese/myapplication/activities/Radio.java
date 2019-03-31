@@ -135,12 +135,12 @@ public class Radio extends AppCompatActivity {
             //start the video view player
             videoView.start();
             //replace the play button with a pause button
-            img.setImageResource(R.mipmap.pauseicon);
+            img.setImageResource(R.drawable.pause_icon);
         }else if(videoView.isPlaying() == true){
             //stop the stream when pause button is clicked
             videoView.stopPlayback();
             //replace pause button with a play button
-            img.setImageResource(R.mipmap.playicon);
+            img.setImageResource(R.drawable.play_icon);
         }
     }
 
