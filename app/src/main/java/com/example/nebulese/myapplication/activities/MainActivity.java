@@ -150,9 +150,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //display the title and image for the first two story objects
                 titleText.setText(jsonStoriesList.get(0).getTitle());
                 Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
+                //put the story object in a tag
                 leadImageButton.setTag(jsonStoriesList.get(0));
+                //this displays a second story just to prove I can
+                //really, I need a recycler view to display the whole arraylist
                 titleText2.setText(jsonStoriesList.get(1).getTitle());
                 Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
+                //pu the whole story object in a tag
                 leadImageButton2.setTag(jsonStoriesList.get(1));
 
             } catch (JSONException e) {
@@ -264,8 +268,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onStoryImageClick(View view){
         //make a new intent with the story class
         Intent intent = new Intent(this, NewsStories.class);
-
+        //get the tag containing the story object from the image clicked on
         Story story = (Story)leadImageButton.getTag();
+        //name the object for later retrieval
         intent.putExtra("story", story);
         //send the activity
         startActivity(intent);

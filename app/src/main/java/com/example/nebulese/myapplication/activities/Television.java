@@ -2,9 +2,7 @@ package com.example.nebulese.myapplication.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +14,11 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
-import static com.example.nebulese.myapplication.R.string.player_error;
+/*
+
+A lot of this was taken from the youtube data api pages
+
+*/
 
 public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
     //set the flag which looks for a created state and brings it to the
@@ -36,6 +38,8 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_television);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        //Since this class now extends the youtubebase class and not appcompat I need
+        //to find a way to display the toolbar
         //setSupportActionBar(toolbar);
 
         //make sure these gui components are available when activity starts
@@ -43,7 +47,7 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
 
-
+        //make the youtube components available
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubeView.initialize(Config.YOUTUBE_API_KEY, this);
 
@@ -53,7 +57,7 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
 
         private Config() {
         }
-
+        //for security reasons, hold the API key in its own private class
         public static final String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
 
     }
@@ -132,12 +136,8 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RECOVERY_REQUEST) {
             // Re-initialize if user performed a recovery action
-            getYouTubePlayerProvider().initialize(Config.YOUTUBE_API_KEY, this);
+            youTubeView.initialize(Config.YOUTUBE_API_KEY, this);
         }
-    }
-
-    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return youTubeView;
     }
 
 }

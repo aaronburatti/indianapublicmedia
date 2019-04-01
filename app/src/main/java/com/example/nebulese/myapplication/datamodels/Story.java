@@ -6,6 +6,14 @@ import android.os.Parcelable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+/*
+
+Pretty standard Object class that I made parcelable to be able
+to put story objects in tags
+
+*/
+
 public class Story implements Parcelable {
     private int storyID;
     private String hash;

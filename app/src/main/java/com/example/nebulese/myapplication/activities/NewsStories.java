@@ -44,8 +44,11 @@ public class NewsStories extends AppCompatActivity {
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
+
+        //get the story object out of the tag
         Story story = getIntent().getExtras().getParcelable("story");
 
+        //set the data from the object to the view components
         title = (TextView)findViewById(R.id.storyTitle);
         title.setText(story.getTitle());
         date = (TextView)findViewById(R.id.storyDate);
