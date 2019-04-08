@@ -8,12 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.nebulese.myapplication.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import static com.example.nebulese.myapplication.R.string.player_error;
@@ -26,10 +28,14 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
+    //components
+    LinearLayout layout;
 
     //youtube variable
     private static final int RECOVERY_REQUEST = 1;
-    private YouTubePlayerView youTubeView;
+    private YouTubePlayerFragment youTubeFrag;
+    private static final String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
+    private static final int RECOVERY_DIALOG_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +48,19 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
+        layout = (LinearLayout)findViewById(R.id.layout);
 
+        youTubeFrag = (YouTubePlayerFragment) getFragmentManager()
+                .findFragmentById(R.id.youtubeplayerfragment);
+        youTubeFrag.initialize(YOUTUBE_API_KEY, this);
 
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubeView.initialize(Config.YOUTUBE_API_KEY, this);
+    }
+
+    public void onPlaylistClick(){
+        layout.removeAllViews();
 
     }
 
-    private final class Config {
-
-        private Config() {
-        }
-
-        public static final String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,35 +113,34 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
 
 
     @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
-        //load a video by default
-        if (!wasRestored) {
-            player.cueVideo("bPW6qGED0r0");
+    public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                        YouTubeInitializationResult errorReason) {
+        if (errorReason.isUserRecoverableError()) {
+            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
+        } else {
+            Toast.makeText(this, "Youtube Player Initializing can't be done",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
-    @SuppressLint("StringFormatInvalid")
     @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult errorReason) {
-           // handle the errors
-        if (errorReason.isUserRecoverableError()) {
-            errorReason.getErrorDialog(this, RECOVERY_REQUEST).show();
-        } else {
-            String error = String.format(getString(R.string.player_error), errorReason.toString());
-            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
+                                        boolean wasRestored) {
+        if (!wasRestored) {
+            player.cuePlaylist(PlayList_ID);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RECOVERY_REQUEST) {
-            // Re-initialize if user performed a recovery action
-            getYouTubePlayerProvider().initialize(Config.YOUTUBE_API_KEY, this);
+        if (requestCode == RECOVERY_DIALOG_REQUEST) {
+            // Retry initialization if user performed a recovery action
+            getYouTubePlayerProvider().initialize(YOUTUBE_API_KEY, this);
         }
     }
 
     protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return youTubeView;
+        return (YouTubePlayerView) findViewById(R.id.youtubeplayerfragment);
     }
 
 }

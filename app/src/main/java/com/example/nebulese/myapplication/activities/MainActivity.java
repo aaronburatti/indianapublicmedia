@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //these are for demonstration. I should implement a recyclerview for more
         //story objects
-        leadImageButton2 = (ImageButton)findViewById(R.id.leadImage2);
-        shareImageButton2 = (ImageButton)findViewById(R.id.shareIcon2);
-        titleText2 = (TextView)findViewById(R.id.titleText2);
+//        leadImageButton2 = (ImageButton)findViewById(R.id.leadImage2);
+//        shareImageButton2 = (ImageButton)findViewById(R.id.shareIcon2);
+//        titleText2 = (TextView)findViewById(R.id.titleText2);
 
 
         videoView = (VideoView)findViewById(R.id.videoStory);
