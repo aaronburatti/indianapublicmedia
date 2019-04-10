@@ -22,9 +22,9 @@ public class NewsStoriesRecycler extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_bmarked_stories);
+        setContentView(R.layout.content_main);
         //get the recycler view
-        recyclerView = (RecyclerView) findViewById(R.id.bmarkedStories);
+        recyclerView = (RecyclerView) findViewById(R.id.jsonStories);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);

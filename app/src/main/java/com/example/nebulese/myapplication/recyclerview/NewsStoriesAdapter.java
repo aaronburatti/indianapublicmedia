@@ -39,7 +39,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
     //in the future this will bring up the whole of the bookmarked story
     public static class StoriesHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private LayoutInflater inflater;
-        public ImageButton leadImage;
+        public ImageButton leadImageButton;
         public TextView titleText;
 
         public StoriesHolder(ViewGroup v){
@@ -58,7 +58,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
     @Override
     public StoriesHolder onCreateViewHolder(ViewGroup parent, int viewType){
         //inflate the single bookmarked story view
-        view = inflater.inflate(R.layout.news_story_card, parent, false);
+        view = inflater.inflate(R.layout.content_main, parent, false);
         //pass it to the holder
         holder = new StoriesHolder((ViewGroup) view);
         //get the image and text view
@@ -73,7 +73,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         Story storyList = list.get(index);
         //set the image and text
         titleText.setText(storyList.getTitle());
-        Picasso.get().load(list.get(index).getImgUrl()).into(leadImageButton);    }
+        Picasso.get().load(storyList.getImgUrl()).into(leadImageButton);    }
 
     //in case the list size is needed
     @Override
