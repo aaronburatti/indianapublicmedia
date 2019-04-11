@@ -73,7 +73,8 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         Story storyList = list.get(index);
         //set the image and text
         titleText.setText(storyList.getTitle());
-        Picasso.get().load(storyList.getImgUrl()).into(leadImageButton);    }
+        Picasso.get().load(storyList.getImgUrl()).into(leadImageButton);
+    }
 
     //in case the list size is needed
     @Override

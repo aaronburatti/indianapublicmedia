@@ -12,14 +12,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -30,6 +34,7 @@ import com.example.nebulese.myapplication.api.WebLink;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
+import com.example.nebulese.myapplication.recyclerview.NewsStoriesAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -46,15 +51,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //register the clickable components
     ImageButton leadImageButton;
     ImageButton shareImageButton;
-    ImageButton leadImageButton2;
-    ImageButton shareImageButton2;
     VideoView videoView;
     //register the menu items
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
     TextView titleText;
-    TextView titleText2;
+
+    RecyclerView recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Android Studio Boilerplate Code for a Nav Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        recycler = (RecyclerView)findViewById(R.id.jsonStories);
 
     }
 
@@ -145,15 +151,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
                     //put the story in the list
                     jsonStoriesList.add(story);
+
                 }
 
                 //display the title and image for the first two story objects
-                titleText.setText(jsonStoriesList.get(0).getTitle());
-                Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
-                leadImageButton.setTag(jsonStoriesList.get(0));
-                titleText2.setText(jsonStoriesList.get(1).getTitle());
-                Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
-                leadImageButton2.setTag(jsonStoriesList.get(1));
+//                titleText.setText(jsonStoriesList.get(0).getTitle());
+//                Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
+//                leadImageButton.setTag(jsonStoriesList.get(0));
+//                titleText2.setText(jsonStoriesList.get(1).getTitle());
+//                Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
+//                leadImageButton2.setTag(jsonStoriesList.get(1));
+
+
+                NewsStoriesAdapter newsStoriesAdapter = new NewsStoriesAdapter(MainActivity.this, jsonStoriesList);
+                recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                recycler.setHasFixedSize(true);
+                recycler.setAdapter(newsStoriesAdapter);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();

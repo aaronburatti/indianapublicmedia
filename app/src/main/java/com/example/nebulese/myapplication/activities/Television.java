@@ -127,7 +127,7 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
                                         boolean wasRestored) {
         if (!wasRestored) {
-            player.cuePlaylist(PlayList_ID);
+            //player.cuePlaylist(PlayList_ID);
         }
     }
 
