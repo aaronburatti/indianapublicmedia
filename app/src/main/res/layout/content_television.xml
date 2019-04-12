@@ -7,26 +7,53 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.Television"
     tools:showIn="@layout/activity_television">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/layout">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            android:id="@+id/indiananewsdesk"
+            >
 
-            <com.google.android.youtube.player.YouTubePlayerView
-            android:id="@+id/youtube_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/indianaNewsdeskImage"
+                android:src="@drawable/indiana_newsdesk_background"
+                android:onClick="onincardClick"/>
 
         </android.support.v7.widget.CardView>
-    </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="10dp"
+            android:layout_below="@+id/indiananewsdesk"
+            android:id="@+id/indiandroid"
+
+            >
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/indiandroidImage"
+                android:src="@mipmap/indiandroid"
+                android:onClick="onindroidClick"/>
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
 
 
 </ScrollView>
