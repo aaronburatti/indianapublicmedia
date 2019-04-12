@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Story"
+    tools:context=".activities.NewsStories"
     tools:showIn="@layout/activity_story">
 
     <LinearLayout
@@ -17,29 +17,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".Story"
+        tools:context=".datamodels.Story"
         tools:showIn="@layout/activity_story">
 
         <ImageView
             android:contentDescription="@string/place_holder"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
             android:id="@+id/storyViewLeadImage"
             android:background="@mipmap/storyleadicon"
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
 
         <ImageView
-            android:onClick="onBookmarkClick"
             android:id="@+id/bookmarkIcon"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_weight=".25"
             android:src="@mipmap/bookmark" />
 
+        <ImageView
+            android:id="@+id/fbIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight=".25"
+            android:src="@drawable/fb_black_icon" />
 
+            <ImageView
+                android:onClick="onBookmarkClick"
+                android:id="@+id/twitIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_weight=".25"
+                android:src="@drawable/twitter_black_icon" />
+
+            <ImageView
+                android:id="@+id/shareIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_weight=".25"
+                android:src="@drawable/ic_share_black_24dp" />
+        </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="400dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             >
@@ -47,30 +73,37 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:id="@+id/storyViewTitle"
+                android:layout_height="wrap_content"
+                android:id="@+id/storyTitle"
                 android:text="@string/story_title"
+                android:scrollHorizontally="false"
                 android:textSize="20sp"
+                android:layout_marginBottom="20dp"
                 />
 
 
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="50dp"-->
+                <!--android:id="@+id/storyAuthor"-->
+                <!--android:text="@string/story_author"-->
+                <!--android:textSize="12sp" />-->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="30dp"
-                android:text="@string/story_author"
-                android:textSize="12sp" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="55dp"
                 android:text="@string/story_date"
+                android:id="@+id/storyDate"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginBottom="80dp"
+                android:id="@+id/storyBody"
                 android:text="@string/story_body"
                 android:textSize="13sp"
                 android:ellipsize="none"
@@ -81,4 +114,4 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

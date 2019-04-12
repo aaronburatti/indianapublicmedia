@@ -1,10 +1,13 @@
-package com.example.nebulese.myapplication;
+package com.example.nebulese.myapplication.recyclerview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import com.example.nebulese.myapplication.R;
+import com.example.nebulese.myapplication.datamodels.Story;
+import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 
 import java.util.ArrayList;
 

@@ -1,20 +1,35 @@
-package com.example.nebulese.myapplication;
+package com.example.nebulese.myapplication.datamodels;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Story {
+
+/*
+
+Pretty standard Object class that I made parcelable to be able
+to put story objects in tags
+
+*/
+
+public class Story implements Parcelable {
     private int storyID;
     private String hash;
     private String title;
     private String imgUrl;
-    private SimpleDateFormat pubDate;
+    private String pubDate;
     private String author;
     private String body;
     private int bmarked;
     private int shared;
-    private SimpleDateFormat shareDate;
+    private String shareDate;
     private String shareMethod;
+
+    public Story(){
+
+    }
 
     //temporary constructor for lab three
     public Story(int ID, String title, String imgUrl){
@@ -24,7 +39,7 @@ public class Story {
     }
 
     //constructor for creating a full story from JSON
-    public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body) {
+    public Story(String hash, String title, String imgUrl, String pubDate, String author, String body) {
         this.hash = hash;
         this.title = title;
         this.imgUrl = imgUrl;
@@ -34,7 +49,7 @@ public class Story {
     }
 
     //full constructor for bookmarked story, once JSON Data is around
-    public Story(String hash, String title, String imgUrl, SimpleDateFormat pubDate, String author, String body, int bmarked) {
+    public Story(String hash, String title, String imgUrl, String pubDate, String author, String body, int bmarked) {
         this.hash = hash;
         this.title = title;
         this.imgUrl = imgUrl;
@@ -45,7 +60,7 @@ public class Story {
     }
 
     //constructor for shared stories
-    public Story(String hash, String title, int shared, SimpleDateFormat shareDate, String shareMethod) {
+    public Story(String hash, String title, int shared, String shareDate, String shareMethod) {
         this.hash = hash;
         this.title = title;
         this.shared = shared;
@@ -62,7 +77,7 @@ public class Story {
         return title;
     }
 
-    public SimpleDateFormat getPubDate() {
+    public String getPubDate() {
         return pubDate;
     }
 
@@ -84,7 +99,7 @@ public class Story {
         return shared;
     }
 
-    public SimpleDateFormat getShareDate() {
+    public String getShareDate() {
         return shareDate;
     }
 
@@ -104,7 +119,7 @@ public class Story {
         this.title = title;
     }
 
-    public void setPubDate(SimpleDateFormat pubDate) {
+    public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
 
@@ -124,7 +139,7 @@ public class Story {
         this.shared = 1;
     }
 
-    public void setShareDate(SimpleDateFormat shareDate) {
+    public void setShareDate(String shareDate) {
         this.shareDate = shareDate;
     }
 
@@ -152,4 +167,51 @@ public class Story {
         return shared;
     }
 
+
+    protected Story(Parcel in) {
+        storyID = in.readInt();
+        hash = in.readString();
+        title = in.readString();
+        imgUrl = in.readString();
+        pubDate = in.readString();
+        author = in.readString();
+        body = in.readString();
+        bmarked = in.readInt();
+        shared = in.readInt();
+        shareDate = in.readString();
+        shareMethod = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(storyID);
+        dest.writeString(hash);
+        dest.writeString(title);
+        dest.writeString(imgUrl);
+        dest.writeString(pubDate);
+        dest.writeString(author);
+        dest.writeString(body);
+        dest.writeInt(bmarked);
+        dest.writeInt(shared);
+        dest.writeString(shareDate);
+        dest.writeString(shareMethod);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Story> CREATOR = new Parcelable.Creator<Story>() {
+        @Override
+        public Story createFromParcel(Parcel in) {
+            return new Story(in);
+        }
+
+        @Override
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
 }

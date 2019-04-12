@@ -23,4 +23,6 @@
     <string name="title_activity_television">Television</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="radioPlayState">pause</string>
+    <string name="player_error">Something went wrong</string>
 </resources>

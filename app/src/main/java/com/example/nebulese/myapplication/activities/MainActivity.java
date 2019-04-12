@@ -1,31 +1,43 @@
-package com.example.nebulese.myapplication;
+package com.example.nebulese.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.api.ResponseClass;
 import com.example.nebulese.myapplication.api.WebLink;
+import com.example.nebulese.myapplication.datamodels.Story;
+import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
+import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //set the flag which looks for a created state and brings it to the
@@ -34,11 +46,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //register the clickable components
     ImageButton leadImageButton;
     ImageButton shareImageButton;
+    ImageButton leadImageButton2;
+    ImageButton shareImageButton2;
     VideoView videoView;
     //register the menu items
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
+    TextView titleText;
+    TextView titleText2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +67,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //make sure everything needed is programmatically accessible
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
         shareImageButton = (ImageButton)findViewById(R.id.shareIcon);
+        titleText = (TextView)findViewById(R.id.titleText);
+
+        //these are for demonstration. I should implement a recyclerview for more
+        //story objects
+        leadImageButton2 = (ImageButton)findViewById(R.id.leadImage2);
+        shareImageButton2 = (ImageButton)findViewById(R.id.shareIcon2);
+        titleText2 = (TextView)findViewById(R.id.titleText2);
+
+
         videoView = (VideoView)findViewById(R.id.videoStory);
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
+
+        //drawable resources
+
 
         //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    //async request handler running off of the main thread
     public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
         private ProgressBar progressBar;
         private Context context;
@@ -79,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
+            //show a progress bar as the app loads data
             progressBar = new ProgressBar(context);
             progressBar.setIndeterminate(false);
             progressBar.setVisibility(View.VISIBLE);
@@ -86,18 +116,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected ResponseClass doInBackground(Void... voids) {
+            //call the method that handles the request and passes back the data
             ResponseClass link = new WebLink().getResponse(api);
+            //return the result
             return link;
         }
 
         @Override
-        protected void onPostExecute(ResponseClass response){
-            super.onPostExecute(response);
-            Toast.makeText(MainActivity.this, "JSON good to go", Toast.LENGTH_SHORT).show();
-            if(response.getErrorCode() == 200){
+        protected void onPostExecute(ResponseClass link){
+            //accept the result of doInBackground
+            super.onPostExecute(link);
+            JSONObject jsonObject = null;
+            try {
+                //pull the data out of response object and put it in jsonobject
+                jsonObject = new JSONObject(link.getmMessaage());
+                //turn that into a json array
+                JSONArray jsonArray = jsonObject.getJSONArray("stories");
+                //get the arraylist ready
+                ArrayList<Story> jsonStoriesList = new ArrayList<>();
+                for(int i = 0; i < jsonArray.length(); i++){
+                    //declare a new story
+                    Story story = new Story();
+                    //get the data out of the array and pass it to the story object
+                    story.setTitle(jsonArray.getJSONObject(i).getString("title"));
+                    story.setHash(jsonArray.getJSONObject(i).getString("id"));
+                    story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
+                    story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
+                    story.setBody(jsonArray.getJSONObject(i).getString("story"));
+                    //put the story in the list
+                    jsonStoriesList.add(story);
+                }
 
+                //display the title and image for the first two story objects
+                titleText.setText(jsonStoriesList.get(0).getTitle());
+                Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
+                //put the story object in a tag
+                leadImageButton.setTag(jsonStoriesList.get(0));
+                //this displays a second story just to prove I can
+                //really, I need a recycler view to display the whole arraylist
+                titleText2.setText(jsonStoriesList.get(1).getTitle());
+                Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
+                //pu the whole story object in a tag
+                leadImageButton2.setTag(jsonStoriesList.get(1));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
+            
         }
     }
 
@@ -202,6 +268,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onStoryImageClick(View view){
         //make a new intent with the story class
         Intent intent = new Intent(this, NewsStories.class);
+        //get the tag containing the story object from the image clicked on
+        Story story = (Story)leadImageButton.getTag();
+        //name the object for later retrieval
+        intent.putExtra("story", story);
         //send the activity
         startActivity(intent);
     }
@@ -230,8 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //dummy string url as this will come from JSON eventually
         String imgUrl = "http://indianapublicmedia.org/billmurray.png";
         //dummy date as this will be gathered from JSON
-        SimpleDateFormat today = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat pubDate = today;
+        String pubDate = "06/7/19";
         //dummy author
         String author = "Hercules the Goat";
         //dummy body
