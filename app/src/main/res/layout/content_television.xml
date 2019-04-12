@@ -21,14 +21,14 @@
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="10dp"
             android:id="@+id/indiananewsdesk"
-            android:clickable="true"
-            android:onClick="onShowClick">
+            >
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/indianaNewsdeskImage"
-                android:src="@drawable/indiana_newsdesk_background"/>
+                android:src="@drawable/indiana_newsdesk_background"
+                android:onClick="onincardClick"/>
 
         </android.support.v7.widget.CardView>
 
@@ -42,14 +42,15 @@
             app:cardCornerRadius="10dp"
             android:layout_below="@+id/indiananewsdesk"
             android:id="@+id/indiandroid"
-            android:clickable="true"
-            android:onClick="onShowClick">
+
+            >
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/indiandroidImage"
-                android:src="@mipmap/indiandroid"/>
+                android:src="@mipmap/indiandroid"
+                android:onClick="onindroidClick"/>
 
         </android.support.v7.widget.CardView>
     </RelativeLayout>

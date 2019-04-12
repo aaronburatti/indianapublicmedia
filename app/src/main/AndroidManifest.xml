@@ -34,6 +34,9 @@
         <activity android:name=".recyclerview.BmarkedStories"
             android:label="IPM"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activities.YoutubePlaylist"
+            android:label="IPM"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

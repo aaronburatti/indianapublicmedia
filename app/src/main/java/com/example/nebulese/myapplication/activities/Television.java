@@ -52,14 +52,21 @@ public class Television extends AppCompatActivity {
 
     }
 
-    public void onShowClick(View view){
-        CardView cv = (CardView)view;
+    public void onincardClick(View view){
 
         Intent intent = new Intent(Television.this, YoutubePlaylist.class);
-        intent.putExtra("id", String.valueOf(view.getId()));
-        Log.i("valueof", "thisstring" + String.valueOf(view.getId()));
+        intent.putExtra("incard", indiananewsdesk);
+        intent.putExtra("index", 1);
+        startActivity(intent);
     }
 
+    public void onindroidClick(View view){
+
+        Intent intent = new Intent(Television.this, YoutubePlaylist.class);
+        intent.putExtra("indroid", indiandroid);
+        intent.putExtra("index", 2);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

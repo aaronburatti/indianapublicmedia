@@ -1,5 +1,6 @@
 package com.example.nebulese.myapplication.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -14,25 +15,25 @@ import com.google.android.youtube.player.YouTubePlayerView;
 public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
     //youtube variable
     private static final int RECOVERY_REQUEST = 1;
-    private YouTubePlayerFragment youTubeFrag;
-    private static String YOUTUBE_API_KEY = "";
-    private static final String PlayList_ID = "PLsLvHNXs74oABQAwdocnfKJDdd1Vt6eIT";
+    private YouTubePlayerView youTubePlayer;
+    private static String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
+    private static String PlayList_ID = "";
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.single_playlist);
 
-
-        if(YOUTUBE_API_KEY == ""){
-            YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
+        Bundle bun = getIntent().getExtras();
+        if(bun.getInt("index") == 1) {
+            PlayList_ID = bun.getString("incard");
         } else {
-            YOUTUBE_API_KEY = "";
+            PlayList_ID = bun.getString("indroid");
         }
-
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player);
-        youTubePlayerView.initialize(YOUTUBE_API_KEY, this);
+        youTubePlayer = (YouTubePlayerView) findViewById(R.id.youtube_player);
+        youTubePlayer.initialize(YOUTUBE_API_KEY, this);
 
     }
 
