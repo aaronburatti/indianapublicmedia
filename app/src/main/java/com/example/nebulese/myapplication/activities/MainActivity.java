@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //register the clickable components
     ImageButton leadImageButton;
     ImageButton shareImageButton;
-    VideoView videoView;
     //register the menu items
     MenuItem action_home;
     MenuItem action_wfiu;
@@ -59,12 +58,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView titleText;
 
     RecyclerView recycler;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         new GetAPI(this).execute();
 
@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        titleText2 = (TextView)findViewById(R.id.titleText2);
 
 
-        videoView = (VideoView)findViewById(R.id.videoStory);
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
                     //put the story in the list
                     jsonStoriesList.add(story);
-                    Log.i("news titles", "title data" );
+                    //Log.i("news titles", "title data" );
                 }
 
                 NewsStoriesAdapter newsStoriesAdapter = new NewsStoriesAdapter(MainActivity.this, jsonStoriesList);

@@ -1,6 +1,7 @@
 package com.example.nebulese.myapplication.recyclerview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nebulese.myapplication.R;
+import com.example.nebulese.myapplication.activities.MainActivity;
+import com.example.nebulese.myapplication.activities.NewsStories;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +23,7 @@ import java.util.ArrayList;
 public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.StoriesHolder> {
     //register all lists, views, and classes needed globally
     ArrayList<Story> list = new ArrayList<>();
-    View view;
+//    View view;
     LayoutInflater inflater;
     NewsStoriesAdapter.StoriesHolder holder;
     private Context context;
@@ -41,15 +44,30 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         private LayoutInflater inflater;
         public ImageButton leadImageButton;
         public TextView titleText;
+        private Context context;
 
-        public StoriesHolder(ViewGroup v){
+        public StoriesHolder(View v, Context context){
             super(v);
             v.setOnClickListener(this);
+            this.context = context;
+            leadImageButton = (ImageButton) v.findViewById(R.id.leadImage);
+            titleText = (TextView) v.findViewById(R.id.titleText);
+            leadImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //make a new intent with the story class
+                    Intent intent = new Intent(context, NewsStories.class);
+
+                    Story story = (Story)leadImageButton.getTag();
+                    intent.putExtra("story", story);
+                    //send the activity
+                    context.startActivity(intent);
+                }
+            });
         }
 
         @Override
         public void onClick(View view){
-
         }
 
     }
@@ -57,13 +75,12 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
 
     @Override
     public StoriesHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        //inflate the single bookmarked story view
-        view = inflater.inflate(R.layout.content_main, parent, false);
+        //inflate the single story view
+        View view = inflater.inflate(R.layout.news_story_card, parent, false);
         //pass it to the holder
-        holder = new StoriesHolder((ViewGroup) view);
+        holder = new StoriesHolder(view, parent.getContext());
         //get the image and text view
-        leadImageButton = (ImageButton) view.findViewById(R.id.leadImage);
-        titleText = (TextView) view.findViewById(R.id.titleText);
+
         return holder;
     }
 
@@ -72,8 +89,9 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         //get the view at each index
         Story storyList = list.get(index);
         //set the image and text
-        titleText.setText(storyList.getTitle());
-        Picasso.get().load(storyList.getImgUrl()).into(leadImageButton);
+        holder.titleText.setText(storyList.getTitle());
+        holder.leadImageButton.setTag(storyList);
+        Picasso.get().load(storyList.getImgUrl()).into(holder.leadImageButton);
     }
 
     //in case the list size is needed

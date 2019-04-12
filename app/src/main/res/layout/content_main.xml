@@ -8,131 +8,140 @@
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/appBackground"-->
+        <!--android:orientation="vertical"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+        <!--tools:context=".activities.MainActivity"-->
+        <!--tools:showIn="@layout/activity_main">-->
+
+        <!--&lt;!&ndash;<android.support.v7.widget.CardView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginTop="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginRight="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginBottom="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;app:cardCornerRadius="10dp">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/leadImageContainer"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:orientation="vertical">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ImageButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/leadImage"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="270dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_gravity="top"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@mipmap/dummyicon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:contentDescription="@string/place_holder"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:onClick="onStoryImageClick" />&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/titleText"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginTop="180dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginStart="4dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textColor="#fff"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textSize="18sp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textStyle="bold"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:text=""&ndash;&gt;-->
+                    <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+
+            <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginTop="270dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:orientation="horizontal">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/twitIcon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight=".20"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@drawable/twitter_black_icon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:contentDescription="@string/place_holder" />&ndash;&gt;-->
+
+
+
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/fbIcon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight=".25"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@drawable/fb_black_icon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:contentDescription="@string/place_holder" />&ndash;&gt;-->
+
+
+
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/bookmarkIcon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight=".25"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:background="#fff"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@drawable/ic_bookmark_black_24dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:contentDescription="@string/place_holder"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:onClick="onBookmarkClick"&ndash;&gt;-->
+                    <!--&lt;!&ndash;tools:ignore="MissingPrefix" />&ndash;&gt;-->
+
+
+
+                <!--&lt;!&ndash;<ImageButton&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/shareIcon"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight=".25"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:background="#fff"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@drawable/ic_share_black_24dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:contentDescription="@string/place_holder"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:onClick="onStoryShareClick"&ndash;&gt;-->
+                    <!--&lt;!&ndash;tools:ignore="MissingPrefix" />&ndash;&gt;-->
+
+
+
+            <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;</android.support.v7.widget.CardView>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<android.support.v7.widget.CardView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="146dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginTop="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginRight="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginBottom="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;app:cardCornerRadius="4dp">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<VideoView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/videoStory"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_gravity="bottom"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginTop="400dp" />&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;</android.support.v7.widget.CardView>&ndash;&gt;-->
+
+
+    <!--</LinearLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/jsonStories"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/appBackground"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".activities.MainActivity"
-        tools:showIn="@layout/activity_main">
+        android:paddingTop="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="10dp">
-
-            <RelativeLayout
-                android:id="@+id/leadImageContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/leadImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:layout_gravity="top"
-                    android:src="@mipmap/dummyicon"
-                    android:contentDescription="@string/place_holder"
-                    android:onClick="onStoryImageClick" />
-
-                <TextView
-                    android:id="@+id/titleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="180dp"
-                    android:layout_marginStart="4dp"
-                    android:textColor="#fff"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text=""
-                    />
-
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="270dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/twitIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_weight=".20"
-                    android:src="@drawable/twitter_black_icon"
-                    android:contentDescription="@string/place_holder" />
-
-
-
-                <ImageView
-                    android:id="@+id/fbIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_weight=".25"
-                    android:src="@drawable/fb_black_icon"
-                    android:contentDescription="@string/place_holder" />
-
-
-
-                <ImageView
-                    android:id="@+id/bookmarkIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_weight=".25"
-                    android:background="#fff"
-                    android:src="@drawable/ic_bookmark_black_24dp"
-                    android:contentDescription="@string/place_holder"
-                    android:onClick="onBookmarkClick"
-                    tools:ignore="MissingPrefix" />
-
-
-
-                <ImageButton
-                    android:id="@+id/shareIcon"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight=".25"
-                    android:background="#fff"
-                    android:src="@drawable/ic_share_black_24dp"
-                    android:contentDescription="@string/place_holder"
-                    android:onClick="onStoryShareClick"
-                    tools:ignore="MissingPrefix" />
-
-
-
-            </LinearLayout>
-
-
-        </android.support.v7.widget.CardView>
-
-        <!--<android.support.v7.widget.CardView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="146dp"-->
-            <!--android:layout_marginLeft="8dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--app:cardCornerRadius="4dp">-->
-
-            <!--<VideoView-->
-                <!--android:id="@+id/videoStory"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="200dp"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:layout_marginTop="400dp" />-->
-
-
-        <!--</android.support.v7.widget.CardView>-->
-
-
-    </LinearLayout>
 
 </RelativeLayout>
