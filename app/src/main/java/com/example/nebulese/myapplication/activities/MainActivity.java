@@ -151,17 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
                     //put the story in the list
                     jsonStoriesList.add(story);
-
+                    Log.i("news titles", "title data" );
                 }
-
-                //display the title and image for the first two story objects
-//                titleText.setText(jsonStoriesList.get(0).getTitle());
-//                Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
-//                leadImageButton.setTag(jsonStoriesList.get(0));
-//                titleText2.setText(jsonStoriesList.get(1).getTitle());
-//                Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
-//                leadImageButton2.setTag(jsonStoriesList.get(1));
-
 
                 NewsStoriesAdapter newsStoriesAdapter = new NewsStoriesAdapter(MainActivity.this, jsonStoriesList);
                 recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));

@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -20,7 +23,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 import static com.example.nebulese.myapplication.R.string.player_error;
 
-public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class Television extends AppCompatActivity {
     //set the flag which looks for a created state and brings it to the
     //front of the stack
     private static final int flag = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
@@ -28,14 +31,10 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
-    //components
-    LinearLayout layout;
-
-    //youtube variable
-    private static final int RECOVERY_REQUEST = 1;
-    private YouTubePlayerFragment youTubeFrag;
-    private static final String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
-    private static final int RECOVERY_DIALOG_REQUEST = 1;
+    CardView incard;
+    CardView indroid;
+    private static String indiananewsdesk = "PLsLvHNXs74oABQAwdocnfKJDdd1Vt6eIT";
+    private static String indiandroid = "PLsLvHNXs74oDjl92pCVCZNiyBXsS81V6Q";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +47,17 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
-        layout = (LinearLayout)findViewById(R.id.layout);
-
-        youTubeFrag = (YouTubePlayerFragment) getFragmentManager()
-                .findFragmentById(R.id.youtubeplayerfragment);
-        youTubeFrag.initialize(YOUTUBE_API_KEY, this);
+        incard = (CardView)findViewById(R.id.indiananewsdesk);
+        indroid = (CardView)findViewById(R.id.indiandroid);
 
     }
 
-    public void onPlaylistClick(){
-        layout.removeAllViews();
+    public void onShowClick(View view){
+        CardView cv = (CardView)view;
 
+        Intent intent = new Intent(Television.this, YoutubePlaylist.class);
+        intent.putExtra("id", String.valueOf(view.getId()));
+        Log.i("valueof", "thisstring" + String.valueOf(view.getId()));
     }
 
 
@@ -112,35 +111,7 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
     }
 
 
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                        YouTubeInitializationResult errorReason) {
-        if (errorReason.isUserRecoverableError()) {
-            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
-        } else {
-            Toast.makeText(this, "Youtube Player Initializing can't be done",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
-                                        boolean wasRestored) {
-        if (!wasRestored) {
-            //player.cuePlaylist(PlayList_ID);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RECOVERY_DIALOG_REQUEST) {
-            // Retry initialization if user performed a recovery action
-            getYouTubePlayerProvider().initialize(YOUTUBE_API_KEY, this);
-        }
-    }
-
-    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return (YouTubePlayerView) findViewById(R.id.youtubeplayerfragment);
-    }
 
 }
+
+
