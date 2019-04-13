@@ -275,19 +275,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-    public void onStoryShareClick(View view){
-        //create a new intent to send a message with the devices messaging apps
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        //most generic type, will probably change to something more compatible
-        //with html as this is for story sharing
-        intent.setType("text/plain");
-        //title of the sharing box
-        String title = "Share Via...";
-        //use the native method to create and display the chooser
-        Intent chooseIntent = Intent.createChooser(intent, title);
-        //do it
-        startActivity(chooseIntent);
-    }
+//    public void onStoryShareClick(View view){
+//        //create a new intent to send a message with the devices messaging apps
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        //most generic type, will probably change to something more compatible
+//        //with html as this is for story sharing
+//        intent.setType("text/plain");
+//        //title of the sharing box
+//        String title = "Share Via...";
+//        Story story = (Story)leadImageButton.getTag();
+//        String shareText = story.getBody();
+//        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+//        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
+//
+//        //use the native method to create and display the chooser
+//        Intent chooseIntent = Intent.createChooser(intent, title);
+//        //do it
+//        startActivity(chooseIntent);
+//    }
 
     public void onBookmarkClick(View view){
         //dummy hash for now as this will be brought in from JSON

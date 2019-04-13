@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.nebulese.myapplication.R;
@@ -28,6 +29,7 @@ public class Radio extends AppCompatActivity {
     MenuItem action_wtiu;
     ImageView img;
     VideoView videoView;
+    TextView stationName;
     //set the initial radio station to wfiu one
     private String radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
 
@@ -44,7 +46,8 @@ public class Radio extends AppCompatActivity {
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
         img = (ImageView)findViewById(R.id.radioPlayButton);
         videoView = (VideoView)findViewById(R.id.wfiuOne);
-
+        stationName = (TextView)findViewById(R.id.stationName);
+        stationName.setText("WFIU One");
 
 //
     }
@@ -148,6 +151,7 @@ public class Radio extends AppCompatActivity {
     public void radioNextButton(View view) {
         //if the radio is streaming wfiu2
         if(radioUri == "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8"){
+            stationName.setText("WFIU One");
             //set uri to wfiu one
             radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
             //start the player
@@ -155,6 +159,7 @@ public class Radio extends AppCompatActivity {
             videoView.start();
         }else {
             //do the opposite of above
+            stationName.setText("WFIU Two");
             radioUri = "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8";
             setUpRadioStream(view, radioUri);
             videoView.start();

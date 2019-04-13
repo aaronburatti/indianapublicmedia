@@ -1,8 +1,10 @@
 package com.example.nebulese.myapplication.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -20,6 +23,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.squareup.picasso.Picasso;
 
 import static com.example.nebulese.myapplication.R.string.player_error;
 
@@ -31,8 +35,8 @@ public class Television extends AppCompatActivity {
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
-    CardView incard;
-    CardView indroid;
+    ImageButton incard;
+    ImageButton indroid;
     private static String indiananewsdesk = "PLsLvHNXs74oABQAwdocnfKJDdd1Vt6eIT";
     private static String indiandroid = "PLsLvHNXs74oDjl92pCVCZNiyBXsS81V6Q";
 
@@ -47,9 +51,11 @@ public class Television extends AppCompatActivity {
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
-        incard = (CardView)findViewById(R.id.indiananewsdesk);
-        indroid = (CardView)findViewById(R.id.indiandroid);
-
+        incard      = (ImageButton)findViewById(R.id.indiananewsdesk);
+        indroid     = (ImageButton) findViewById(R.id.indiandroid);
+        Picasso.get().load("https://indianapublicmedia.org/news/news-images/newsdesk-header-1.png").resize(1000, 300).into(incard);
+        Picasso.get().load("https://indianapublicmedia.org/digital1229/files/2018/06/Indiandroid-logo.png").resize(1000, 200).into(indroid);
+        //
     }
 
     public void onincardClick(View view){

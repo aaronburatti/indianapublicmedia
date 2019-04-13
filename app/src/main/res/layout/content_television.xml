@@ -12,47 +12,47 @@
         android:layout_height="match_parent"
         android:id="@+id/layout">
 
-        <android.support.v7.widget.CardView
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="10dp"
-            android:id="@+id/indiananewsdesk"
-            >
+            android:text="Choose a program to watch"
+            android:id="@+id/programChoice"
+            />
+
 
             <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/indianaNewsdeskImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#fff"
+                android:id="@+id/indiananewsdesk"
                 android:src="@drawable/indiana_newsdesk_background"
-                android:onClick="onincardClick"/>
+                android:onClick="onincardClick"
+                android:layout_below="@+id/programChoice"/>
 
-        </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="10dp"
-            android:layout_below="@+id/indiananewsdesk"
-            android:id="@+id/indiandroid"
-
-            >
 
             <ImageButton
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/indiandroidImage"
+                android:background="#fff"
+                android:id="@+id/indiandroid"
                 android:src="@mipmap/indiandroid"
-                android:onClick="onindroidClick"/>
+                android:onClick="onindroidClick"
+                android:layout_below="@+id/indiananewsdesk"/>
 
-        </android.support.v7.widget.CardView>
+
     </RelativeLayout>
 
 
