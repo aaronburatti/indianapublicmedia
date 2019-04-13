@@ -26,18 +26,24 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_playlist);
 
+        //get the bundle and parse the identifying infor
         Bundle bun = getIntent().getExtras();
+        //look for the index and get the appropriate playlist
         if(bun.getInt("index") == 1) {
             PlayList_ID = bun.getString("incard");
         } else {
             PlayList_ID = bun.getString("indroid");
         }
+        //initialize the youtube view and play the playlist
         youTubePlayer = (YouTubePlayerView) findViewById(R.id.youtube_player);
         youTubePlayer.initialize(YOUTUBE_API_KEY, this);
 
     }
 
 
+    /*
+    these are all boilerplate youtube methods to run the playlist
+     */
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult result) {
         Toast.makeText(this, "Failure to Initialize!", Toast.LENGTH_LONG).show();

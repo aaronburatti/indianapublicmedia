@@ -45,7 +45,7 @@ public class Television extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_television);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         //make sure these gui components are available when activity starts
         action_home = (MenuItem)findViewById(R.id.action_home);
@@ -53,21 +53,24 @@ public class Television extends AppCompatActivity {
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
         incard      = (ImageButton)findViewById(R.id.indiananewsdesk);
         indroid     = (ImageButton) findViewById(R.id.indiandroid);
+        //Set the playlist icons from web images on load
         Picasso.get().load("https://indianapublicmedia.org/news/news-images/newsdesk-header-1.png").resize(1000, 300).into(incard);
         Picasso.get().load("https://indianapublicmedia.org/digital1229/files/2018/06/Indiandroid-logo.png").resize(1000, 200).into(indroid);
-        //
+
     }
 
     public void onincardClick(View view){
-
+        //initialize the intent
         Intent intent = new Intent(Television.this, YoutubePlaylist.class);
+        //mark with indentifiers
         intent.putExtra("incard", indiananewsdesk);
         intent.putExtra("index", 1);
+        //send the intent to the YouTube Class
         startActivity(intent);
     }
 
     public void onindroidClick(View view){
-
+        //same idea as onincardClick
         Intent intent = new Intent(Television.this, YoutubePlaylist.class);
         intent.putExtra("indroid", indiandroid);
         intent.putExtra("index", 2);

@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
+    //register components
     TextView titleText;
-
     RecyclerView recycler;
     Toolbar toolbar;
 
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //call the async function immediately
         new GetAPI(this).execute();
 
         //make sure everything needed is programmatically accessible
@@ -73,19 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         shareImageButton = (ImageButton)findViewById(R.id.shareIcon);
         titleText = (TextView)findViewById(R.id.titleText);
 
-        //these are for demonstration. I should implement a recyclerview for more
-        //story objects
-//        leadImageButton2 = (ImageButton)findViewById(R.id.leadImage2);
-//        shareImageButton2 = (ImageButton)findViewById(R.id.shareIcon2);
-//        titleText2 = (TextView)findViewById(R.id.titleText2);
-
-
+        //menu items
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
-
-        //drawable resources
-
 
         //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -153,9 +145,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //Log.i("news titles", "title data" );
                 }
 
+                //call the recycler and load the stories list
                 NewsStoriesAdapter newsStoriesAdapter = new NewsStoriesAdapter(MainActivity.this, jsonStoriesList);
+                //fix the layout
                 recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                //guarantee layout regularity
                 recycler.setHasFixedSize(true);
+                //run it
                 recycler.setAdapter(newsStoriesAdapter);
 
 
@@ -275,25 +271,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-//    public void onStoryShareClick(View view){
-//        //create a new intent to send a message with the devices messaging apps
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//        //most generic type, will probably change to something more compatible
-//        //with html as this is for story sharing
-//        intent.setType("text/plain");
-//        //title of the sharing box
-//        String title = "Share Via...";
-//        Story story = (Story)leadImageButton.getTag();
-//        String shareText = story.getBody();
-//        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-//        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
-//
-//        //use the native method to create and display the chooser
-//        Intent chooseIntent = Intent.createChooser(intent, title);
-//        //do it
-//        startActivity(chooseIntent);
-//    }
 
+    /*
+    THIS NEEDS TO BE MOVED TO THE NEWS STORIES ADAPTER CLASS
+     */
     public void onBookmarkClick(View view){
         //dummy hash for now as this will be brought in from JSON
         String hash = "46hfgkld99";

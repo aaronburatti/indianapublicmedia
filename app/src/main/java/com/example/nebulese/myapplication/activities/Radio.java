@@ -151,6 +151,7 @@ public class Radio extends AppCompatActivity {
     public void radioNextButton(View view) {
         //if the radio is streaming wfiu2
         if(radioUri == "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8"){
+            //display the station
             stationName.setText("WFIU One");
             //set uri to wfiu one
             radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
