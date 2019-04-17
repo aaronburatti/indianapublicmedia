@@ -35,6 +35,8 @@ import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
 import com.example.nebulese.myapplication.recyclerview.NewsStoriesAdapter;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         //call the async function immediately
         new GetAPI(this).execute();
 

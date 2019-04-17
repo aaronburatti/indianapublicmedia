@@ -23,12 +23,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 
 public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.StoriesHolder> {
@@ -39,6 +35,8 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
     private Context context;
     public ImageView leadImageButton;
     public TextView titleText;
+    public ImageView fbicon;
+
 
 
     public NewsStoriesAdapter(Context context, ArrayList<Story> list){
@@ -58,18 +56,21 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         private Context context;
         private CardView storyCard;
         private ImageView twitIcon;
-        ImageButton shareImageButton;
+        ImageView shareImageButton;
+        ImageView fbicon;
 
         public StoriesHolder(View v, Context context){
             super(v);
             v.setOnClickListener(this);
             this.context = context;
             //register the card components that will be clickable
+
             storyCard = (CardView)v.findViewById(R.id.storyCard);
             leadImageButton = (ImageButton) v.findViewById(R.id.leadImage);
             titleText = (TextView) v.findViewById(R.id.titleText);
-            shareImageButton = (ImageButton)v.findViewById(R.id.shareIcon) ;
+            shareImageButton = (ImageView)v.findViewById(R.id.shareIcon) ;
             twitIcon = (ImageView)v.findViewById(R.id.twitIcon);
+            fbicon = (ImageView) v.findViewById(R.id.fbIcon);
 
             //handle the lead image click
             leadImageButton.setOnClickListener(new View.OnClickListener() {
@@ -123,52 +124,52 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
                     NOT YET OPERATIONAL
                      */
 
-                    //get the story object
-                    Story story = (Story)leadImageButton.getTag();
-                    //create a twitter object
-                    Twitter twitter = TwitterFactory.getSingleton();
-                    //set keys for request token
-                    twitter.setOAuthConsumer("63GE7RHkdFVnEwKXG62sN1VPz ", "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht");
-                    //start it as null before request
-                    RequestToken requestToken = null;
-                    try {
-                        //try to get token
-                        requestToken = twitter.getOAuthRequestToken();
-                    } catch (TwitterException e) {
-                        e.printStackTrace();
-                    }
-                    //start as null
-                    AccessToken accessToken = null;
-                    //get the input
-                    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                    //begin the attempt to get access token
-                    while (null == accessToken) {
-                        String pin = null;
-                        try {
-                            pin = br.readLine();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try{
-                            if(pin.length() > 0){
-                                accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-                            }else{
-                                accessToken = twitter.getOAuthAccessToken();
-                            }
-                        } catch (TwitterException te) {
-                            if(401 == te.getStatusCode()){
-                                System.out.println("Unable to get the access token.");
-                            }else{
-                                te.printStackTrace();
-                            }
-                        }
-                    }
-                    try {
-                        //if all is successful, tweet title
-                        twitter.updateStatus(story.getTitle());
-                    } catch (TwitterException e) {
-                        e.printStackTrace();
-                    }
+//                    //get the story object
+//                    Story story = (Story)leadImageButton.getTag();
+//                    //create a twitter object
+//                    Twitter twitter = TwitterFactory.getSingleton();
+//                    //set keys for request token
+//                    twitter.setOAuthConsumer("63GE7RHkdFVnEwKXG62sN1VPz ", "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht");
+//                    //start it as null before request
+//                    RequestToken requestToken = null;
+//                    try {
+//                        //try to get token
+//                        requestToken = twitter.getOAuthRequestToken();
+//                    } catch (TwitterException e) {
+//                        e.printStackTrace();
+//                    }
+//                    //start as null
+//                    AccessToken accessToken = null;
+//                    //get the input
+//                    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//                    //begin the attempt to get access token
+//                    while (null == accessToken) {
+//                        String pin = null;
+//                        try {
+//                            pin = br.readLine();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        try{
+//                            if(pin.length() > 0){
+//                                accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+//                            }else{
+//                                accessToken = twitter.getOAuthAccessToken();
+//                            }
+//                        } catch (TwitterException te) {
+//                            if(401 == te.getStatusCode()){
+//                                System.out.println("Unable to get the access token.");
+//                            }else{
+//                                te.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                    try {
+//                        //if all is successful, tweet title
+//                        twitter.updateStatus(story.getTitle());
+//                    } catch (TwitterException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             });
 
