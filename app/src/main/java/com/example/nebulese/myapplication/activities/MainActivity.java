@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
         private ProgressBar progressBar;
         private Context context;
-        private String api = "https://indianapublicmedia.org/feeds/newsjson.json";
+        private String api = "https://indianapublicmedia.org/feeds/another-json-feed.json";
 
         GetAPI(Context context){this.context = context;}
 
@@ -135,9 +135,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             JSONObject jsonObject = null;
             try {
                 //pull the data out of response object and put it in jsonobject
-                Log.i("flow","here");
+
                 jsonObject = new JSONObject(link.getmMessaage());
-                Log.i("flow","there" + jsonObject);
+//                Log.i("thereis","fffff" + link.getmMessaage());
+
                 //turn that into a json array
                 JSONArray jsonArray = jsonObject.getJSONArray("stories");
                 //get the arraylist ready
@@ -147,19 +148,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Story story = new Story();
                     //get the data out of the array and pass it to the story object
                     story.setTitle(jsonArray.getJSONObject(i).getString("title"));
-                    story.setHash(jsonArray.getJSONObject(i).getString("id"));
+                    //story.setHash(jsonArray.getJSONObject(i).getString("id"));
                     story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
                     story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
+                    story.setAuthor(jsonArray.getJSONObject(i).getString("author"));
+                    story.setStoryURL(jsonArray.getJSONObject(i).getString("link"));
+
 
                     //put the story in the list
                     jsonStoriesList.add(story);
-
-                    //#set($wys = $wys.replaceAll(,))
-                    //#set($wys = $wys.replaceAll('"', '"'))
-                    //#set($wys = $wys.replaceAll("", ""))
-                    //#set($wys = $wys.replaceAll("", ""))
-                    //#set($wys = $wys.replaceAll("", "  "))
                 }
 
                 //call the recycler and load the stories list

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,6 @@ import com.example.nebulese.myapplication.activities.MainActivity;
 import com.example.nebulese.myapplication.activities.NewsStories;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.squareup.picasso.Picasso;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 //import com.facebook.FacebookSdk;
@@ -100,9 +97,8 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
                         String title = "Share Via...";
                         //get the specific story object
                         Story story = (Story)leadImageButton.getTag();
-                        //For right now I am placing the story body in the message
-                        //however, I need to include the web url in the JSON so that can be shared
-                        String shareText = story.getBody();
+                        Log.i("dews","" + story.getAuthor());
+                        String shareText = story.getStoryURL();
                         //handle subject instances
                         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
                         //load the share text
@@ -155,6 +151,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         holder.titleText.setText(storyList.getTitle());
         //set items from the listview
         holder.leadImageButton.setTag(storyList);
+        Log.i("ddddd","" + storyList.getImgUrl());
         holder.storyCard.setTag(storyList);
         Picasso.get().load(storyList.getImgUrl()).into(holder.leadImageButton);
     }

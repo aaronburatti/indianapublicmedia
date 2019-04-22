@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -129,8 +130,7 @@ public class NewsStories extends AppCompatActivity {
     }
 
     public void onBookmarkClick(View view){
-        //dummy hash for now as this will be brought in from JSON
-        String hash = story.getHash();
+        String hash = "ghjsk";
         //get title textview
         TextView titleTextView = (TextView)findViewById(R.id.storyTitle);
         //convert titletextview's value to a string then save in a variable
@@ -138,7 +138,7 @@ public class NewsStories extends AppCompatActivity {
         //dummy string url as this will come from JSON eventually
         String imgUrl = story.getImgUrl();
         //dummy date as this will be gathered from JSON
-
+        Log.i("hhh","" + story.getImgUrl());
         String pubDate = story.getPubDate();
         //dummy author
         String author = "Hercules the Goat";

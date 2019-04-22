@@ -19,6 +19,7 @@ public class Story implements Parcelable {
     private String hash;
     private String title;
     private String imgUrl;
+    private String storyURL;
     private String pubDate;
     private String author;
     private String body;
@@ -60,10 +61,10 @@ public class Story implements Parcelable {
     }
 
     //constructor for shared stories
-    public Story(String hash, String title, int shared, String shareDate, String shareMethod) {
+    public Story(String hash, String title, String storyURL, String shareDate, String shareMethod) {
         this.hash = hash;
         this.title = title;
-        this.shared = shared;
+        this.storyURL = storyURL;
         this.shareDate = shareDate;
         this.shareMethod = shareMethod;
     }
@@ -97,6 +98,14 @@ public class Story implements Parcelable {
     public int isShared() {
         shared = 1;
         return shared;
+    }
+
+    public String getStoryURL() {
+        return storyURL;
+    }
+
+    public void setStoryURL(String storyURL) {
+        this.storyURL = storyURL;
     }
 
     public String getShareDate() {
@@ -173,6 +182,7 @@ public class Story implements Parcelable {
         hash = in.readString();
         title = in.readString();
         imgUrl = in.readString();
+        storyURL = in.readString();
         pubDate = in.readString();
         author = in.readString();
         body = in.readString();
@@ -193,6 +203,7 @@ public class Story implements Parcelable {
         dest.writeString(hash);
         dest.writeString(title);
         dest.writeString(imgUrl);
+        dest.writeString(storyURL);
         dest.writeString(pubDate);
         dest.writeString(author);
         dest.writeString(body);

@@ -55,7 +55,7 @@ public class Television extends AppCompatActivity {
         indroid     = (ImageButton) findViewById(R.id.indiandroid);
         //Set the playlist icons from web images on load
         Picasso.get().load("https://indianapublicmedia.org/news/news-images/newsdesk-header-1.png").resize(1000, 300).into(incard);
-        Picasso.get().load("https://indianapublicmedia.org/digital1229/files/2018/06/Indiandroid-logo.png").resize(1000, 200).into(indroid);
+        Picasso.get().load("https://indianapublicmedia.org/wpimages/digital1229/2018/06/Indiandroid-logo.png").resize(1000, 200).into(indroid);
 
     }
 
