@@ -12,14 +12,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -30,6 +34,9 @@ import com.example.nebulese.myapplication.api.WebLink;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
+import com.example.nebulese.myapplication.recyclerview.NewsStoriesAdapter;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -46,22 +53,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //register the clickable components
     ImageButton leadImageButton;
     ImageButton shareImageButton;
-    ImageButton leadImageButton2;
-    ImageButton shareImageButton2;
-    VideoView videoView;
     //register the menu items
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
+    //register components
     TextView titleText;
-    TextView titleText2;
+    RecyclerView recycler;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+        //call the async function immediately
         new GetAPI(this).execute();
 
         //make sure everything needed is programmatically accessible
@@ -69,20 +78,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         shareImageButton = (ImageButton)findViewById(R.id.shareIcon);
         titleText = (TextView)findViewById(R.id.titleText);
 
-        //these are for demonstration. I should implement a recyclerview for more
-        //story objects
-        leadImageButton2 = (ImageButton)findViewById(R.id.leadImage2);
-        shareImageButton2 = (ImageButton)findViewById(R.id.shareIcon2);
-        titleText2 = (TextView)findViewById(R.id.titleText2);
-
-
-        videoView = (VideoView)findViewById(R.id.videoStory);
+        //menu items
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
-
-        //drawable resources
-
 
         //Android Studio Boilerplate Code for a Nav Drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -94,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Android Studio Boilerplate Code for a Nav Drawer
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        recycler = (RecyclerView)findViewById(R.id.jsonStories);
 
     }
 
@@ -143,21 +144,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
                     story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
+
                     //put the story in the list
                     jsonStoriesList.add(story);
+
+                    //#set($wys = $wys.replaceAll(,))
+                    //#set($wys = $wys.replaceAll('"', '"'))
+                    //#set($wys = $wys.replaceAll("", ""))
+                    //#set($wys = $wys.replaceAll("", ""))
+                    //#set($wys = $wys.replaceAll("", "  "))
                 }
 
-                //display the title and image for the first two story objects
-                titleText.setText(jsonStoriesList.get(0).getTitle());
-                Picasso.get().load(jsonStoriesList.get(0).getImgUrl()).into(leadImageButton);
-                //put the story object in a tag
-                leadImageButton.setTag(jsonStoriesList.get(0));
-                //this displays a second story just to prove I can
-                //really, I need a recycler view to display the whole arraylist
-                titleText2.setText(jsonStoriesList.get(1).getTitle());
-                Picasso.get().load(jsonStoriesList.get(1).getImgUrl()).into(leadImageButton2);
-                //pu the whole story object in a tag
-                leadImageButton2.setTag(jsonStoriesList.get(1));
+                //call the recycler and load the stories list
+                NewsStoriesAdapter newsStoriesAdapter = new NewsStoriesAdapter(MainActivity.this, jsonStoriesList);
+                //fix the layout
+                recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                //guarantee layout regularity
+                recycler.setHasFixedSize(true);
+                //run it
+                recycler.setAdapter(newsStoriesAdapter);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -268,28 +274,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onStoryImageClick(View view){
         //make a new intent with the story class
         Intent intent = new Intent(this, NewsStories.class);
-        //get the tag containing the story object from the image clicked on
+
         Story story = (Story)leadImageButton.getTag();
-        //name the object for later retrieval
         intent.putExtra("story", story);
         //send the activity
         startActivity(intent);
     }
 
-    public void onStoryShareClick(View view){
-        //create a new intent to send a message with the devices messaging apps
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        //most generic type, will probably change to something more compatible
-        //with html as this is for story sharing
-        intent.setType("text/plain");
-        //title of the sharing box
-        String title = "Share Via...";
-        //use the native method to create and display the chooser
-        Intent chooseIntent = Intent.createChooser(intent, title);
-        //do it
-        startActivity(chooseIntent);
-    }
 
+    /*
+    THIS NEEDS TO BE MOVED TO THE NEWS STORIES ADAPTER CLASS
+     */
     public void onBookmarkClick(View view){
         //dummy hash for now as this will be brought in from JSON
         String hash = "46hfgkld99";

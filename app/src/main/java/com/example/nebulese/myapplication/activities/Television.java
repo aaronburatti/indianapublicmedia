@@ -1,26 +1,33 @@
 package com.example.nebulese.myapplication.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.nebulese.myapplication.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.squareup.picasso.Picasso;
 
-/*
+import static com.example.nebulese.myapplication.R.string.player_error;
 
-A lot of this was taken from the youtube data api pages
-
-*/
-
-public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class Television extends AppCompatActivity {
     //set the flag which looks for a created state and brings it to the
     //front of the stack
     private static final int flag = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
@@ -28,38 +35,46 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
     MenuItem action_home;
     MenuItem action_wfiu;
     MenuItem action_wtiu;
-
-    //youtube variable
-    private static final int RECOVERY_REQUEST = 1;
-    private YouTubePlayerView youTubeView;
+    ImageButton incard;
+    ImageButton indroid;
+    private static String indiananewsdesk = "PLsLvHNXs74oABQAwdocnfKJDdd1Vt6eIT";
+    private static String indiandroid = "PLsLvHNXs74oDjl92pCVCZNiyBXsS81V6Q";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_television);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        //Since this class now extends the youtubebase class and not appcompat I need
-        //to find a way to display the toolbar
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         //make sure these gui components are available when activity starts
         action_home = (MenuItem)findViewById(R.id.action_home);
         action_wfiu = (MenuItem)findViewById(R.id.action_wfiu);
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
-
-        //make the youtube components available
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubeView.initialize(Config.YOUTUBE_API_KEY, this);
+        incard      = (ImageButton)findViewById(R.id.indiananewsdesk);
+        indroid     = (ImageButton) findViewById(R.id.indiandroid);
+        //Set the playlist icons from web images on load
+        Picasso.get().load("https://indianapublicmedia.org/news/news-images/newsdesk-header-1.png").resize(1000, 300).into(incard);
+        Picasso.get().load("https://indianapublicmedia.org/digital1229/files/2018/06/Indiandroid-logo.png").resize(1000, 200).into(indroid);
 
     }
 
-    private final class Config {
+    public void onincardClick(View view){
+        //initialize the intent
+        Intent intent = new Intent(Television.this, YoutubePlaylist.class);
+        //mark with indentifiers
+        intent.putExtra("incard", indiananewsdesk);
+        intent.putExtra("index", 1);
+        //send the intent to the YouTube Class
+        startActivity(intent);
+    }
 
-        private Config() {
-        }
-        //for security reasons, hold the API key in its own private class
-        public static final String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
-
+    public void onindroidClick(View view){
+        //same idea as onincardClick
+        Intent intent = new Intent(Television.this, YoutubePlaylist.class);
+        intent.putExtra("indroid", indiandroid);
+        intent.putExtra("index", 2);
+        startActivity(intent);
     }
 
     @Override
@@ -112,32 +127,7 @@ public class Television extends YouTubeBaseActivity implements YouTubePlayer.OnI
     }
 
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
-        //load a video by default
-        if (!wasRestored) {
-            player.cueVideo("bPW6qGED0r0");
-        }
-    }
-
-    @SuppressLint("StringFormatInvalid")
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult errorReason) {
-           // handle the errors
-        if (errorReason.isUserRecoverableError()) {
-            errorReason.getErrorDialog(this, RECOVERY_REQUEST).show();
-        } else {
-            String error = String.format(getString(R.string.player_error), errorReason.toString());
-            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RECOVERY_REQUEST) {
-            // Re-initialize if user performed a recovery action
-            youTubeView.initialize(Config.YOUTUBE_API_KEY, this);
-        }
-    }
 
 }
+
+

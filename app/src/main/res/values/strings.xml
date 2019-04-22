@@ -25,4 +25,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="radioPlayState">pause</string>
     <string name="player_error">Something went wrong</string>
+    <string name="facebook_app_id">2321402551437115</string>
+    <string name="fb_login_protocol_scheme">fb2321402551437115</string>
 </resources>

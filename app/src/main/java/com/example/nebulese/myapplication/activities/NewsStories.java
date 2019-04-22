@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +34,7 @@ public class NewsStories extends AppCompatActivity {
     TextView date;
     TextView body;
     ImageView image;
+    Story story;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +57,18 @@ public class NewsStories extends AppCompatActivity {
         date = (TextView)findViewById(R.id.storyDate);
         date.setText(story.getPubDate());
         body = (TextView)findViewById(R.id.storyBody);
-        body.setText(story.getBody());
+        String storyBody = story.getBody();
+        storyBody = storyBody.replace("``", "--");
+        storyBody = storyBody.replace("^","-");
+        storyBody = storyBody.replace("\\\\","\\");
+        storyBody = storyBody.replace("*","<");
+        storyBody = storyBody.replace("~",">");
+        storyBody = storyBody.replace("[newline]","");
+        Spanned storyText = Html.fromHtml(storyBody);
+        body.setText(storyText);
         image = (ImageView)findViewById(R.id.storyViewLeadImage);
         Picasso.get().load(story.getImgUrl()).into(image);
+
 
     }
 
@@ -112,20 +124,20 @@ public class NewsStories extends AppCompatActivity {
 
     public void onBookmarkClick(View view){
         //dummy hash for now as this will be brought in from JSON
-        String hash = "46hfgkld99";
+        String hash = story.getHash();
         //get title textview
         TextView titleTextView = (TextView)findViewById(R.id.storyTitle);
         //convert titletextview's value to a string then save in a variable
         String title = titleTextView.getText().toString();
         //dummy string url as this will come from JSON eventually
-        String imgUrl = "http://indianapublicmedia.org/billmurray.png";
+        String imgUrl = story.getImgUrl();
         //dummy date as this will be gathered from JSON
 
-        String pubDate = "03/29/19";
+        String pubDate = story.getPubDate();
         //dummy author
         String author = "Hercules the Goat";
         //dummy body
-        String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
+        String body = story.getBody();
         //create the object with above data
         Story story = new Story(hash, title, imgUrl, pubDate, author, body);
         //new db object
@@ -136,4 +148,27 @@ public class NewsStories extends AppCompatActivity {
         Toast.makeText(this,"Story Bookmarked", Toast.LENGTH_SHORT).show();
     }
 
+    public void onShareIconClick(View view){
+        //create a new intent to send a message with the devices messaging apps
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        //most generic type, will probably change to something more compatible
+        //with html as this is for story sharing
+        intent.setType("text/plain");
+        //title of the sharing box
+        String title = "Share Via...";
+        //get the specific story object
+        Story story = (Story)image.getTag();
+        //For right now I am placing the story body in the message
+        //however, I need to include the web url in the JSON so that can be shared
+        String shareText = story.getBody();
+        //handle subject instances
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        //load the share text
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
+
+        //use the native method to create and display the chooser
+        Intent chooseIntent = Intent.createChooser(intent, title);
+        //do it
+        startActivity(chooseIntent);
+    }
 }

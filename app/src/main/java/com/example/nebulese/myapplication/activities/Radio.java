@@ -12,10 +12,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.nebulese.myapplication.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
+import com.twitter.sdk.android.tweetui.TweetUi;
+import com.twitter.sdk.android.tweetui.UserTimeline;
 
 
 public class Radio extends AppCompatActivity {
@@ -28,8 +45,12 @@ public class Radio extends AppCompatActivity {
     MenuItem action_wtiu;
     ImageView img;
     VideoView videoView;
+    TextView stationName;
     //set the initial radio station to wfiu one
     private String radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
+    CallbackManager callbackManager;
+    private static final String PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
+    private static final String PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +58,27 @@ public class Radio extends AppCompatActivity {
         setContentView(R.layout.activity_radio);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+//        TwitterConfig config = new TwitterConfig.Builder(this)
+//                .logger(new DefaultLogger(Log.DEBUG))
+//                .twitterAuthConfig(new TwitterAuthConfig(PUBLIC_KEY, PRIVATE_KEY))
+//                .debug(true)
+//                .build();
+//        Twitter.initialize(config);
+//
+//        TwitterCore.getInstance();
+//        TweetUi.getInstance();
+//        TweetComposer.getInstance();
+//        ListView listView = new ListView(this);
+        //listView = (ListView)findViewById(R.id.twitList);
+//
+//        final UserTimeline userTimeline = new UserTimeline.Builder()
+//                .screenName("wfiu")
+//                .build();
+//        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(this)
+//                .setTimeline(userTimeline)
+//                .build();
+        //listView.setAdapter(adapter);
+
 
         //make sure these gui components are available when activity starts
         action_home = (MenuItem)findViewById(R.id.action_home);
@@ -44,10 +86,33 @@ public class Radio extends AppCompatActivity {
         action_wtiu = (MenuItem)findViewById(R.id.action_wtiu);
         img = (ImageView)findViewById(R.id.radioPlayButton);
         videoView = (VideoView)findViewById(R.id.wfiuOne);
+        stationName = (TextView)findViewById(R.id.stationName);
+        stationName.setText("WFIU One");
 
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggeIn = accessToken != null && !accessToken.isExpired();
 
+//        callbackManager = CallbackManager.Factory.create();
+//        LoginManager.getInstance().registerCallback(callbackManager,
+//                new FacebookCallback<LoginResult>() {
+//                    @Override
+//                    public void onSuccess(LoginResult loginResult) {
 //
-    }
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException error) {
+//
+//                    }
+//                }
+//        );
+////
+       }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,6 +213,8 @@ public class Radio extends AppCompatActivity {
     public void radioNextButton(View view) {
         //if the radio is streaming wfiu2
         if(radioUri == "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8"){
+            //display the station
+            stationName.setText("WFIU One");
             //set uri to wfiu one
             radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
             //start the player
@@ -155,11 +222,18 @@ public class Radio extends AppCompatActivity {
             videoView.start();
         }else {
             //do the opposite of above
+            stationName.setText("WFIU Two");
             radioUri = "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8";
             setUpRadioStream(view, radioUri);
             videoView.start();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int RequestCode, int ResultCode, Intent data){
+        callbackManager.onActivityResult(RequestCode, ResultCode, data);
+        super.onActivityResult(RequestCode, ResultCode, data);
     }
 
 }

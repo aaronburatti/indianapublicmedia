@@ -7,26 +7,53 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.Television"
     tools:showIn="@layout/activity_television">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/layout">
 
-        <android.support.v7.widget.CardView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="10dp">
+            android:text="Choose a program to watch"
+            android:id="@+id/programChoice"
+            />
 
-            <com.google.android.youtube.player.YouTubePlayerView
-            android:id="@+id/youtube_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#fff"
+                android:id="@+id/indiananewsdesk"
+                android:src="@drawable/indiana_newsdesk_background"
+                android:onClick="onincardClick"
+                android:layout_below="@+id/programChoice"/>
+
+
+
+            <ImageButton
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:id="@+id/indiandroid"
+                android:src="@mipmap/indiandroid"
+                android:onClick="onindroidClick"
+                android:layout_below="@+id/indiananewsdesk"/>
+
+
+    </RelativeLayout>
 
 
 </ScrollView>
