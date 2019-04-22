@@ -2,9 +2,8 @@ package com.example.nebulese.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,14 +18,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Adapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.api.ResponseClass;
@@ -35,15 +30,13 @@ import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
 import com.example.nebulese.myapplication.recyclerview.NewsStoriesAdapter;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.squareup.picasso.Picasso;
+//import com.facebook.FacebookSdk;
+//import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,10 +61,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            new GetAPI(this).execute();
+        }
+        else{
+            Toast.makeText(this, "please connect to the internet", Toast.LENGTH_SHORT).show();
+        }
+
+
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
         //call the async function immediately
-        new GetAPI(this).execute();
+
 
         //make sure everything needed is programmatically accessible
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
@@ -130,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             JSONObject jsonObject = null;
             try {
                 //pull the data out of response object and put it in jsonobject
+                Log.i("flow","here");
                 jsonObject = new JSONObject(link.getmMessaage());
+                Log.i("flow","there" + jsonObject);
                 //turn that into a json array
                 JSONArray jsonArray = jsonObject.getJSONArray("stories");
                 //get the arraylist ready

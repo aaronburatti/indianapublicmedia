@@ -1,8 +1,11 @@
 package com.example.nebulese.myapplication.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,24 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.nebulese.myapplication.R;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.twitter.sdk.android.core.DefaultLogger;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterConfig;
-import com.twitter.sdk.android.core.TwitterCore;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
-import com.twitter.sdk.android.tweetui.TweetUi;
-import com.twitter.sdk.android.tweetui.UserTimeline;
 
 
 public class Radio extends AppCompatActivity {
@@ -48,7 +37,6 @@ public class Radio extends AppCompatActivity {
     TextView stationName;
     //set the initial radio station to wfiu one
     private String radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
-    CallbackManager callbackManager;
     private static final String PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
     private static final String PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
@@ -58,26 +46,6 @@ public class Radio extends AppCompatActivity {
         setContentView(R.layout.activity_radio);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        TwitterConfig config = new TwitterConfig.Builder(this)
-//                .logger(new DefaultLogger(Log.DEBUG))
-//                .twitterAuthConfig(new TwitterAuthConfig(PUBLIC_KEY, PRIVATE_KEY))
-//                .debug(true)
-//                .build();
-//        Twitter.initialize(config);
-//
-//        TwitterCore.getInstance();
-//        TweetUi.getInstance();
-//        TweetComposer.getInstance();
-//        ListView listView = new ListView(this);
-        //listView = (ListView)findViewById(R.id.twitList);
-//
-//        final UserTimeline userTimeline = new UserTimeline.Builder()
-//                .screenName("wfiu")
-//                .build();
-//        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(this)
-//                .setTimeline(userTimeline)
-//                .build();
-        //listView.setAdapter(adapter);
 
 
         //make sure these gui components are available when activity starts
@@ -89,29 +57,7 @@ public class Radio extends AppCompatActivity {
         stationName = (TextView)findViewById(R.id.stationName);
         stationName.setText("WFIU One");
 
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggeIn = accessToken != null && !accessToken.isExpired();
 
-//        callbackManager = CallbackManager.Factory.create();
-//        LoginManager.getInstance().registerCallback(callbackManager,
-//                new FacebookCallback<LoginResult>() {
-//                    @Override
-//                    public void onSuccess(LoginResult loginResult) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(FacebookException error) {
-//
-//                    }
-//                }
-//        );
-////
        }
 
     @Override
@@ -192,48 +138,58 @@ public class Radio extends AppCompatActivity {
 }
     //when pause/play button is clicked
     public void wfiuOnePlayClick(View view){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
 
-       //if it is playing
-        if(videoView.isPlaying() == false) {
-            //process the uri as a radio stream
-            setUpRadioStream(view, radioUri);
-            //start the video view player
-            videoView.start();
-            //replace the play button with a pause button
-            img.setImageResource(R.drawable.pause_icon);
-        }else if(videoView.isPlaying() == true){
-            //stop the stream when pause button is clicked
-            videoView.stopPlayback();
-            //replace pause button with a play button
-            img.setImageResource(R.drawable.play_icon);
+           //if it is playing
+            if(videoView.isPlaying() == false) {
+                //process the uri as a radio stream
+                setUpRadioStream(view, radioUri);
+                //start the video view player
+                videoView.start();
+                //replace the play button with a pause button
+                img.setImageResource(R.drawable.pause_icon);
+            }else if(videoView.isPlaying() == true){
+                //stop the stream when pause button is clicked
+                videoView.stopPlayback();
+                //replace pause button with a play button
+                img.setImageResource(R.drawable.play_icon);
+            }
+        }
+        else{
+            Toast.makeText(this, "please connect to the internet", Toast.LENGTH_SHORT).show();
         }
     }
 
     //when the next button is pushed
     public void radioNextButton(View view) {
-        //if the radio is streaming wfiu2
-        if(radioUri == "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8"){
-            //display the station
-            stationName.setText("WFIU One");
-            //set uri to wfiu one
-            radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
-            //start the player
-            setUpRadioStream(view, radioUri);
-            videoView.start();
-        }else {
-            //do the opposite of above
-            stationName.setText("WFIU Two");
-            radioUri = "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8";
-            setUpRadioStream(view, radioUri);
-            videoView.start();
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+
+            //if the radio is streaming wfiu2
+            if (radioUri == "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8") {
+                //display the station
+                stationName.setText("WFIU One");
+                //set uri to wfiu one
+                radioUri = "https://npr-hls.leanstream.co/npr/WFIUFM.stream/playlist.m3u8";
+                //start the player
+                setUpRadioStream(view, radioUri);
+                videoView.start();
+            } else {
+                //do the opposite of above
+                stationName.setText("WFIU Two");
+                radioUri = "https://npr-hls.leanstream.co/npr/WFIUF2.stream/playlist.m3u8";
+                setUpRadioStream(view, radioUri);
+                videoView.start();
+            }
         }
+        else{
+                Toast.makeText(this, "please connect to the internet", Toast.LENGTH_SHORT).show();
+            }
 
     }
 
-    @Override
-    protected void onActivityResult(int RequestCode, int ResultCode, Intent data){
-        callbackManager.onActivityResult(RequestCode, ResultCode, data);
-        super.onActivityResult(RequestCode, ResultCode, data);
-    }
 
 }

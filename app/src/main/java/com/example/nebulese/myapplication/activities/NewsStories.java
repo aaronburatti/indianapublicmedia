@@ -64,8 +64,14 @@ public class NewsStories extends AppCompatActivity {
         storyBody = storyBody.replace("*","<");
         storyBody = storyBody.replace("~",">");
         storyBody = storyBody.replace("[newline]","");
-        Spanned storyText = Html.fromHtml(storyBody);
-        body.setText(storyText);
+        storyBody = storyBody.replace("&amp;","");
+        storyBody = storyBody.replace("amp;","");
+        storyBody = storyBody.replace("#160;"," ");
+        storyBody = storyBody.replace("#8217;","'");
+        storyBody = storyBody.replace("#8220;","\"");
+        storyBody = storyBody.replace("#8221;","\"");
+        //Spanned storyText = Html.fromHtml(storyBody);
+        body.setText(Html.fromHtml(storyBody));
         image = (ImageView)findViewById(R.id.storyViewLeadImage);
         Picasso.get().load(story.getImgUrl()).into(image);
 
