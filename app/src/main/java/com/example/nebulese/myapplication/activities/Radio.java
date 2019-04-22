@@ -58,26 +58,26 @@ public class Radio extends AppCompatActivity {
         setContentView(R.layout.activity_radio);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(PUBLIC_KEY, PRIVATE_KEY))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
-
-        TwitterCore.getInstance();
-        TweetUi.getInstance();
-        TweetComposer.getInstance();
-        ListView listView = new ListView(this);
-        listView = (ListView)findViewById(R.id.twitList);
-
-        final UserTimeline userTimeline = new UserTimeline.Builder()
-                .screenName("wfiu")
-                .build();
-        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(this)
-                .setTimeline(userTimeline)
-                .build();
-        listView.setAdapter(adapter);
+//        TwitterConfig config = new TwitterConfig.Builder(this)
+//                .logger(new DefaultLogger(Log.DEBUG))
+//                .twitterAuthConfig(new TwitterAuthConfig(PUBLIC_KEY, PRIVATE_KEY))
+//                .debug(true)
+//                .build();
+//        Twitter.initialize(config);
+//
+//        TwitterCore.getInstance();
+//        TweetUi.getInstance();
+//        TweetComposer.getInstance();
+//        ListView listView = new ListView(this);
+        //listView = (ListView)findViewById(R.id.twitList);
+//
+//        final UserTimeline userTimeline = new UserTimeline.Builder()
+//                .screenName("wfiu")
+//                .build();
+//        final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder(this)
+//                .setTimeline(userTimeline)
+//                .build();
+        //listView.setAdapter(adapter);
 
 
         //make sure these gui components are available when activity starts
@@ -92,27 +92,27 @@ public class Radio extends AppCompatActivity {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggeIn = accessToken != null && !accessToken.isExpired();
 
-        callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-
-                    }
-                }
-        );
+//        callbackManager = CallbackManager.Factory.create();
+//        LoginManager.getInstance().registerCallback(callbackManager,
+//                new FacebookCallback<LoginResult>() {
+//                    @Override
+//                    public void onSuccess(LoginResult loginResult) {
 //
-    }
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException error) {
+//
+//                    }
+//                }
+//        );
+////
+       }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

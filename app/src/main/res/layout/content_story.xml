@@ -9,13 +9,11 @@
     tools:context=".activities.NewsStories"
     tools:showIn="@layout/activity_story">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".datamodels.Story"
-        tools:showIn="@layout/activity_story">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ImageView
             android:contentDescription="@string/place_holder"
@@ -26,44 +24,51 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:orientation="horizontal">
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:id="@+id/iconToolbar"
+            android:layout_below="@id/storyViewLeadImage">
 
             <ImageView
                 android:id="@+id/bookmarkIcon"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:clickable="true"
+                android:onClick="onBookmarkClick"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
                 android:layout_weight=".25"
-                android:src="@mipmap/bookmark" />
+                android:src="@drawable/ic_bookmark_black_24dp" />
 
             <ImageView
                 android:id="@+id/fbIcon"
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_weight=".25"
                 android:src="@drawable/fb_black_icon" />
 
             <ImageView
-                android:onClick="onBookmarkClick"
                 android:id="@+id/twitIcon"
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_weight=".25"
                 android:src="@drawable/twitter_black_icon" />
 
             <ImageView
                 android:id="@+id/shareIcon"
-                android:layout_width="20dp"
+                android:clickable="true"
+                android:onClick="onShareIconClick"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_weight=".25"
                 android:src="@drawable/ic_share_black_24dp" />
         </LinearLayout>
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_below="@id/iconToolbar"
             >
 
 
@@ -71,43 +76,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/storyTitle"
-                android:text="@string/story_title"
+                android:text=""
+                android:textStyle="bold"
                 android:scrollHorizontally="false"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:layout_marginBottom="20dp"
                 />
-
-
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:layout_marginTop="50dp"-->
-                <!--android:id="@+id/storyAuthor"-->
-                <!--android:text="@string/story_author"-->
-                <!--android:textSize="12sp" />-->
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginTop="55dp"
-                android:text="@string/story_date"
-                android:id="@+id/storyDate"
-                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
-                android:layout_marginBottom="80dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/storyAuthor"
+                android:layout_below="@id/storyTitle"
+                android:text=""
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/storyAuthor"
+                android:id="@+id/storyDate"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/storyBody"
-                android:text="@string/story_body"
-                android:textSize="13sp"
+                android:text=""
+                android:textSize="19dp"
+                android:layout_below="@id/storyDate"
                 android:ellipsize="none"
                 android:scrollHorizontally="false"/>
 
 
-        </FrameLayout>
+        </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

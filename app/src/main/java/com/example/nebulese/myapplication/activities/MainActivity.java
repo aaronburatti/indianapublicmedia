@@ -144,9 +144,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
                     story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
+
                     //put the story in the list
                     jsonStoriesList.add(story);
-                    //Log.i("news titles", "title data" );
+
+                    //#set($wys = $wys.replaceAll(,))
+                    //#set($wys = $wys.replaceAll('"', '"'))
+                    //#set($wys = $wys.replaceAll("", ""))
+                    //#set($wys = $wys.replaceAll("", ""))
+                    //#set($wys = $wys.replaceAll("", "  "))
                 }
 
                 //call the recycler and load the stories list
