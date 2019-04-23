@@ -101,12 +101,24 @@ public class StoryDBHandler extends SQLiteOpenHelper {
             //a bookmarked story, i will pass whole object to the single story view
             do{
                 Story story = new Story(cursor.getInt(0), cursor.getString(2), cursor.getString(3));
-                Log.i("frizz","" + cursor.getString(3));
                 storyList.add(story);
             } while(cursor.moveToNext());
         }
         //return the story list for later use
         return storyList;
+    }
+
+    public void getBookMarkedStory(String title){
+        String query = "SELECT * FROM " + TABLE_STORIES + " WHERE " + COLUMN_TITLE + " = " + title;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            Story story = new Story(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
+            Log.i("title","" + story.getAuthor());
+        }
+
     }
 
     public boolean deleteBookmarkedStory(){

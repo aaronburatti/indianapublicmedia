@@ -48,17 +48,32 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         public ImageView bmarkedStoryImage;
         public TextView bmarkedStoryTitle;
         public ImageView deleteStoryIcon;
+        private Context context;
 
         public StoriesHolder(ViewGroup v){
             super(v);
             v.setOnClickListener(this);
 
+            bmarkedStoryImage = (ImageView) v.findViewById(R.id.bmarkedStoryImage);
+            bmarkedStoryTitle = (TextView) v.findViewById(R.id.bmarkedStoryTitle);
+            final StoryDBHandler dbHandle = new StoryDBHandler(context);
+
 //            deleteStoryIcon.setOnClickListener(new View.OnClickListener(){
 //                @Override
 //                public void onClick(View view){
 //
+//
 //                }
 //            });
+
+            bmarkedStoryImage.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                   String title = (String) bmarkedStoryTitle.getText();
+                   dbHandle.getBookMarkedStory(title);
+
+                }
+            });
 
         }
 
