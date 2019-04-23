@@ -19,7 +19,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginLeft="320dp"
-        android:src="@mipmap/ic_close"
+        android:src="@drawable/close_icon_fore"
+        android:id="@+id/storyDelete"
+        android:clickable="true"
         android:onClick="onDeleteBmarkedStoryClick"/>
 
     <TextView
@@ -27,7 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="This is a sample headline and is only meant as a representation"
+        android:layout_marginStart="8dp"
+        android:text=""
         android:textColor="@android:color/black"
         android:layout_toEndOf="@+id/bmarkedStoryImage"
         android:layout_centerVertical="true"/>

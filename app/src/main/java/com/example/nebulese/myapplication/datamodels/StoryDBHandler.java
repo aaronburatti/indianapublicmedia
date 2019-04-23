@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
     //SQLite doesn't have a datetime data formate, so make a formatted string
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     //register db variables
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "StoriesDB.db";
     private static final String TABLE_STORIES = "Stories";
     private static final String COLUMN_ID = "ID";
@@ -68,6 +69,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         //places values in the object
         values.put(COLUMN_HASH, story.getHash());
         values.put(COLUMN_TITLE, story.getTitle());
+        values.put(COLUMN_IMG_URL, story.getImgUrl());
         values.put(COLUMN_PUB_DATE, story.getPubDate().toString());
         values.put(COLUMN_AUTHOR, story.getAuthor());
         values.put(COLUMN_BODY, story.getBody());
@@ -99,6 +101,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
             //a bookmarked story, i will pass whole object to the single story view
             do{
                 Story story = new Story(cursor.getInt(0), cursor.getString(2), cursor.getString(3));
+                Log.i("frizz","" + cursor.getString(3));
                 storyList.add(story);
             } while(cursor.moveToNext());
         }

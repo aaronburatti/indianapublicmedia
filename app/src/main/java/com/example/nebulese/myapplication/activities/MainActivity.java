@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Story story = new Story();
                     //get the data out of the array and pass it to the story object
                     story.setTitle(jsonArray.getJSONObject(i).getString("title"));
-                    //story.setHash(jsonArray.getJSONObject(i).getString("id"));
+                    story.setHash(jsonArray.getJSONObject(i).getString("hash"));
                     story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
                     story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
@@ -290,32 +290,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /*
     THIS NEEDS TO BE MOVED TO THE NEWS STORIES ADAPTER CLASS
      */
-    public void onBookmarkClick(View view){
-        //dummy hash for now as this will be brought in from JSON
-        String hash = "46hfgkld99";
-        //get title textview
-        TextView titleTextView = (TextView)findViewById(R.id.titleText);
-        //convert titletextview's value to a string then save in a variable
-        String title = titleTextView.getText().toString();
-        //dummy string url as this will come from JSON eventually
-        String imgUrl = "http://indianapublicmedia.org/billmurray.png";
-        //dummy date as this will be gathered from JSON
-        String pubDate = "06/7/19";
-        //dummy author
-        String author = "Hercules the Goat";
-        //dummy body
-        String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
-        //create the story object
-        Story story = new Story(hash, title, imgUrl, pubDate, author, body);
-        //initialize db instance
-        StoryDBHandler dbLink = new StoryDBHandler(this);
-        //put story in db
-        dbLink.bookmarkStory(story);
-        //close connection
-        dbLink.close();
-        //so that the user doesn't become confused and annoyed
-        //show them that the addition was succesful
-        Toast.makeText(this, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
-    }
+//    public void onBookmarkClick(View view){
+//        //dummy hash for now as this will be brought in from JSON
+//        String hash = "46hfgkld99";
+//        //get title textview
+//        TextView titleTextView = (TextView)findViewById(R.id.titleText);
+//        //convert titletextview's value to a string then save in a variable
+//        String title = titleTextView.getText().toString();
+//        //dummy string url as this will come from JSON eventually
+//        String imgUrl = "http://indianapublicmedia.org/billmurray.png";
+//        //dummy date as this will be gathered from JSON
+//        String pubDate = "06/7/19";
+//        //dummy author
+//        String author = "Hercules the Goat";
+//        //dummy body
+//        String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
+//        //create the story object
+//        Story story = new Story(hash, title, imgUrl, pubDate, author, body);
+//        //initialize db instance
+//        StoryDBHandler dbLink = new StoryDBHandler(this);
+//        //put story in db
+//        dbLink.bookmarkStory(story);
+//        //close connection
+//        dbLink.close();
+//        //so that the user doesn't become confused and annoyed
+//        //show them that the addition was succesful
+//        Toast.makeText(this, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
+//    }
 
 }

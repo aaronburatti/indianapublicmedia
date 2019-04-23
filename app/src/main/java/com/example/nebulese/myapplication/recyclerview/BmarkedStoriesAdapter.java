@@ -2,14 +2,19 @@ package com.example.nebulese.myapplication.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nebulese.myapplication.R;
+import com.example.nebulese.myapplication.activities.MainActivity;
 import com.example.nebulese.myapplication.datamodels.Story;
+import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -27,6 +32,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
     private Context context;
     public ImageView bmarkedStoryImage;
     public TextView bmarkedStoryTitle;
+    public ImageView deleteStoryIcon;
 
     public BmarkedStoriesAdapter(Context context, ArrayList<Story> list){
         //constructor consuming the context, inflater, and list
@@ -41,10 +47,19 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         private LayoutInflater inflater;
         public ImageView bmarkedStoryImage;
         public TextView bmarkedStoryTitle;
+        public ImageView deleteStoryIcon;
 
         public StoriesHolder(ViewGroup v){
             super(v);
             v.setOnClickListener(this);
+
+//            deleteStoryIcon.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View view){
+//
+//                }
+//            });
+
         }
 
         @Override
@@ -64,6 +79,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         //get the image and text view
         bmarkedStoryTitle = (TextView) view.findViewById(R.id.bmarkedStoryTitle);
         bmarkedStoryImage = (ImageView) view.findViewById(R.id.bmarkedStoryImage);
+        deleteStoryIcon = (ImageView) view.findViewById(R.id.storyDelete);
         return holder;
     }
 
@@ -73,7 +89,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         Story storyList = list.get(index);
         //set the image and text
         bmarkedStoryTitle.setText(storyList.getTitle());
-        bmarkedStoryImage.setImageResource(R.mipmap.storyleadicon);
+        Picasso.get().load(storyList.getImgUrl()).into(bmarkedStoryImage);
     }
 
     //in case the list size is needed

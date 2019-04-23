@@ -12,11 +12,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.activities.MainActivity;
 import com.example.nebulese.myapplication.activities.NewsStories;
 import com.example.nebulese.myapplication.datamodels.Story;
+import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
@@ -55,6 +57,8 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         private ImageView twitIcon;
         ImageView shareImageButton;
         ImageView fbicon;
+        ImageView bookMarkIcon;
+
 
         public StoriesHolder(View v, Context context){
             super(v);
@@ -68,6 +72,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             shareImageButton = (ImageView)v.findViewById(R.id.shareIcon) ;
             twitIcon = (ImageView)v.findViewById(R.id.twitIcon);
             fbicon = (ImageView) v.findViewById(R.id.fbIcon);
+            bookMarkIcon = (ImageView) v.findViewById(R.id.bookmarkIcon);
 
             //handle the lead image click
             leadImageButton.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +128,32 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
                 }
             });
 
+
+            bookMarkIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Story story = (Story)leadImageButton.getTag();
+                    //dummy hash for now as this will be brought in from JSON
+                    story.setHash(story.getHash()) ;
+                    story.setTitle(story.getTitle());
+                    story.setImgUrl(story.getImgUrl());
+                    story.setPubDate(story.getPubDate());
+                    story.setAuthor(story.getAuthor());
+                    story.setBody(story.getBody());
+                    //initialize db instance
+                    StoryDBHandler dbLink = new StoryDBHandler(context);
+                    //put story in db
+                    dbLink.bookmarkStory(story);
+                    //close connection
+                    dbLink.close();
+                    //so that the user doesn't become confused and annoyed
+                    //show them that the addition was succesful
+                    Toast.makeText(context, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
         }
 
         @Override
@@ -151,7 +182,6 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         holder.titleText.setText(storyList.getTitle());
         //set items from the listview
         holder.leadImageButton.setTag(storyList);
-        Log.i("ddddd","" + storyList.getImgUrl());
         holder.storyCard.setTag(storyList);
         Picasso.get().load(storyList.getImgUrl()).into(holder.leadImageButton);
     }
