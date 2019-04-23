@@ -34,6 +34,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
     public TextView bmarkedStoryTitle;
     public ImageView deleteStoryIcon;
 
+
     public BmarkedStoriesAdapter(Context context, ArrayList<Story> list){
         //constructor consuming the context, inflater, and list
         this.context = context;
@@ -50,7 +51,8 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         public ImageView deleteStoryIcon;
         private Context context;
 
-        public StoriesHolder(ViewGroup v){
+
+        public StoriesHolder(ViewGroup v, Context context){
             super(v);
             v.setOnClickListener(this);
 
@@ -90,7 +92,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         //inflate the single bookmarked story view
         view = inflater.inflate(R.layout.bmarked_story_row, parent, false);
         //pass it to the holder
-        holder = new StoriesHolder((ViewGroup) view);
+        holder = new StoriesHolder((ViewGroup) view, context);
         //get the image and text view
         bmarkedStoryTitle = (TextView) view.findViewById(R.id.bmarkedStoryTitle);
         bmarkedStoryImage = (ImageView) view.findViewById(R.id.bmarkedStoryImage);

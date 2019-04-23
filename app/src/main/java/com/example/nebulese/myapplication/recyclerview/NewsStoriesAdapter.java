@@ -20,6 +20,14 @@ import com.example.nebulese.myapplication.activities.NewsStories;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.squareup.picasso.Picasso;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
+
 import java.util.ArrayList;
 
 //import com.facebook.FacebookSdk;
@@ -35,7 +43,8 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
     public ImageView leadImageButton;
     public TextView titleText;
     public ImageView fbicon;
-
+    private static final String TWIT_PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
+    private static final String TWIT_PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
 
     public NewsStoriesAdapter(Context context, ArrayList<Story> list){
@@ -73,6 +82,13 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             twitIcon = (ImageView)v.findViewById(R.id.twitIcon);
             fbicon = (ImageView) v.findViewById(R.id.fbIcon);
             bookMarkIcon = (ImageView) v.findViewById(R.id.bookmarkIcon);
+
+            TwitterConfig config = new TwitterConfig.Builder(context)
+                    .logger(new DefaultLogger(Log.DEBUG))
+                    .twitterAuthConfig(new TwitterAuthConfig("TWIT_PUBLIC_KEY", "TWIT_PRIVATE_KEY"))
+                    .debug(true)
+                    .build();
+            Twitter.initialize(config);
 
             //handle the lead image click
             leadImageButton.setOnClickListener(new View.OnClickListener() {
@@ -121,9 +137,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
                 @Override
                 public void onClick(View v) {
 
-                    /*
-                    NOT YET OPERATIONAL
-                     */
+
 
                 }
             });

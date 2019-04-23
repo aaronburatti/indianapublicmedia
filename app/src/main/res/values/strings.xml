@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <string name="app_name">IPM</string>
     <string name="full_name">Indiana Public Media</string>
     <string name="action_settings">Settings</string>
@@ -27,4 +27,5 @@
     <string name="player_error">Something went wrong</string>
     <string name="facebook_app_id">2321402551437115</string>
     <string name="fb_login_protocol_scheme">fb2321402551437115</string>
+
 </resources>

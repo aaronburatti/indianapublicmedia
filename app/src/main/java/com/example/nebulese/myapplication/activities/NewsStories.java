@@ -19,8 +19,14 @@ import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.squareup.picasso.Picasso;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import org.w3c.dom.Text;
+
+import java.net.URI;
 
 
 public class NewsStories extends AppCompatActivity {
@@ -36,6 +42,9 @@ public class NewsStories extends AppCompatActivity {
     TextView body;
     ImageView image;
     Story story;
+    Uri TwitImg;
+    private static final String TWIT_PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
+    private static final String TWIT_PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +75,7 @@ public class NewsStories extends AppCompatActivity {
         storyBody = storyBody.replace("~",">");
         storyBody = storyBody.replace("[newline]","");
         storyBody = storyBody.replace("&amp;","");
-        storyBody = storyBody.replace("amp;","");
+        storyBody = storyBody.replace("&","");
         storyBody = storyBody.replace("#160;"," ");
         storyBody = storyBody.replace("#8217;","'");
         storyBody = storyBody.replace("#8220;","\"");
@@ -76,6 +85,12 @@ public class NewsStories extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.storyViewLeadImage);
         Picasso.get().load(story.getImgUrl()).into(image);
 
+        Uri TwitImg = Uri.parse(story.getImgUrl());
+
+        TweetComposer.Builder builder = new TweetComposer.Builder(this)
+                .text("just setting up my Twitter Kit.")
+                .image(TwitImg);
+        builder.show();
 
     }
 
@@ -176,5 +191,17 @@ public class NewsStories extends AppCompatActivity {
         Intent chooseIntent = Intent.createChooser(intent, title);
         //do it
         startActivity(chooseIntent);
+    }
+
+    public void twitIconClick(View view){
+        final TwitterSession session = TwitterCore.getInstance().getSessionManager()
+                .getActiveSession();
+        final Intent intent = new ComposerActivity.Builder(this)
+                .session(session)
+                .image(TwitImg)
+                .text("Love where you work")
+                .hashtags("#twitter")
+                .createIntent();
+        startActivity(intent);
     }
 }
