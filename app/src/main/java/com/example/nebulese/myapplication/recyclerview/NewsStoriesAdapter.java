@@ -2,6 +2,7 @@ package com.example.nebulese.myapplication.recyclerview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
 
@@ -83,12 +85,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             fbicon = (ImageView) v.findViewById(R.id.fbIcon);
             bookMarkIcon = (ImageView) v.findViewById(R.id.bookmarkIcon);
 
-            TwitterConfig config = new TwitterConfig.Builder(context)
-                    .logger(new DefaultLogger(Log.DEBUG))
-                    .twitterAuthConfig(new TwitterAuthConfig("TWIT_PUBLIC_KEY", "TWIT_PRIVATE_KEY"))
-                    .debug(true)
-                    .build();
-            Twitter.initialize(config);
+
 
             //handle the lead image click
             leadImageButton.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +115,6 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
                         String title = "Share Via...";
                         //get the specific story object
                         Story story = (Story)leadImageButton.getTag();
-                        Log.i("dews","" + story.getAuthor());
                         String shareText = story.getStoryURL();
                         //handle subject instances
                         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
@@ -136,7 +132,13 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             twitIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Story story = (Story)leadImageButton.getTag();
+                    String text = story.getStoryURL();
+                    Uri img = Uri.parse(story.getImgUrl());
+                    TweetComposer.Builder builder = new TweetComposer.Builder(context)
+                            .text(text)
+                            .image(img);
+                    builder.show();
 
 
                 }

@@ -63,7 +63,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
 //            deleteStoryIcon.setOnClickListener(new View.OnClickListener(){
 //                @Override
 //                public void onClick(View view){
-//
+//                Toast.makeText(context,"So, you want to delete a story, eh?", Toast.LENGTH_SHORT).show();
 //
 //                }
 //            });

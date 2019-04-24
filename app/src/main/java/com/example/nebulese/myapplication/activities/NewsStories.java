@@ -43,6 +43,8 @@ public class NewsStories extends AppCompatActivity {
     ImageView image;
     Story story;
     Uri TwitImg;
+    String shareURL;
+    String hash, storyTitle, imgUrl, pubDate, author, storyBody;
     private static final String TWIT_PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
     private static final String TWIT_PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
@@ -84,13 +86,16 @@ public class NewsStories extends AppCompatActivity {
         body.setText(Html.fromHtml(storyBody));
         image = (ImageView)findViewById(R.id.storyViewLeadImage);
         Picasso.get().load(story.getImgUrl()).into(image);
+        hash = story.getHash();
+        storyTitle = story.getTitle();
+        imgUrl = story.getImgUrl();
+        pubDate = story.getPubDate();
+        author = story.getAuthor();
+        storyBody = story.getBody();
+        shareURL = story.getStoryURL();
 
-        Uri TwitImg = Uri.parse(story.getImgUrl());
 
-        TweetComposer.Builder builder = new TweetComposer.Builder(this)
-                .text("just setting up my Twitter Kit.")
-                .image(TwitImg);
-        builder.show();
+
 
     }
 
@@ -145,26 +150,11 @@ public class NewsStories extends AppCompatActivity {
     }
 
     public void onBookmarkClick(View view){
-        String hash = "ghjsk";
-        //get title textview
-        TextView titleTextView = (TextView)findViewById(R.id.storyTitle);
-        //convert titletextview's value to a string then save in a variable
-        String title = titleTextView.getText().toString();
-        //dummy string url as this will come from JSON eventually
-        String imgUrl = story.getImgUrl();
-        //dummy date as this will be gathered from JSON
-        Log.i("hhh","" + story.getImgUrl());
-        String pubDate = story.getPubDate();
-        //dummy author
-        String author = "Hercules the Goat";
-        //dummy body
-        String body = story.getBody();
-        //create the object with above data
-        Story story = new Story(hash, title, imgUrl, pubDate, author, body);
+        Story newsStory = new Story(hash, storyTitle, imgUrl, pubDate, author, storyBody);
         //new db object
         StoryDBHandler dbLink = new StoryDBHandler(this);
         //place the story into the db
-        dbLink.bookmarkStory(story);
+        dbLink.bookmarkStory(newsStory);
         //alert the user
         Toast.makeText(this,"Story Bookmarked", Toast.LENGTH_SHORT).show();
     }
@@ -172,20 +162,13 @@ public class NewsStories extends AppCompatActivity {
     public void onShareIconClick(View view){
         //create a new intent to send a message with the devices messaging apps
         Intent intent = new Intent(Intent.ACTION_SEND);
-        //most generic type, will probably change to something more compatible
-        //with html as this is for story sharing
         intent.setType("text/plain");
         //title of the sharing box
         String title = "Share Via...";
-        //get the specific story object
-        Story story = (Story)image.getTag();
-        //For right now I am placing the story body in the message
-        //however, I need to include the web url in the JSON so that can be shared
-        String shareText = story.getBody();
         //handle subject instances
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
         //load the share text
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareURL);
 
         //use the native method to create and display the chooser
         Intent chooseIntent = Intent.createChooser(intent, title);
@@ -194,14 +177,10 @@ public class NewsStories extends AppCompatActivity {
     }
 
     public void twitIconClick(View view){
-        final TwitterSession session = TwitterCore.getInstance().getSessionManager()
-                .getActiveSession();
-        final Intent intent = new ComposerActivity.Builder(this)
-                .session(session)
-                .image(TwitImg)
-                .text("Love where you work")
-                .hashtags("#twitter")
-                .createIntent();
-        startActivity(intent);
+        Uri TwitImg = Uri.parse(imgUrl);
+        TweetComposer.Builder builder = new TweetComposer.Builder(this)
+                .text(shareURL)
+                .image(TwitImg);
+        builder.show();
     }
 }

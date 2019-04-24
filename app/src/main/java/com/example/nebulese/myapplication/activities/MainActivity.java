@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //pull the data out of response object and put it in jsonobject
 
                 jsonObject = new JSONObject(link.getmMessaage());
-//                Log.i("thereis","fffff" + link.getmMessaage());
 
                 //turn that into a json array
                 JSONArray jsonArray = jsonObject.getJSONArray("stories");
@@ -276,46 +275,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //this method will be extended to bring up a specific story in the future
-    public void onStoryImageClick(View view){
-        //make a new intent with the story class
-        Intent intent = new Intent(this, NewsStories.class);
-
-        Story story = (Story)leadImageButton.getTag();
-        intent.putExtra("story", story);
-        //send the activity
-        startActivity(intent);
-    }
-
-
-    /*
-    THIS NEEDS TO BE MOVED TO THE NEWS STORIES ADAPTER CLASS
-     */
-//    public void onBookmarkClick(View view){
-//        //dummy hash for now as this will be brought in from JSON
-//        String hash = "46hfgkld99";
-//        //get title textview
-//        TextView titleTextView = (TextView)findViewById(R.id.titleText);
-//        //convert titletextview's value to a string then save in a variable
-//        String title = titleTextView.getText().toString();
-//        //dummy string url as this will come from JSON eventually
-//        String imgUrl = "http://indianapublicmedia.org/billmurray.png";
-//        //dummy date as this will be gathered from JSON
-//        String pubDate = "06/7/19";
-//        //dummy author
-//        String author = "Hercules the Goat";
-//        //dummy body
-//        String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
-//        //create the story object
-//        Story story = new Story(hash, title, imgUrl, pubDate, author, body);
-//        //initialize db instance
-//        StoryDBHandler dbLink = new StoryDBHandler(this);
-//        //put story in db
-//        dbLink.bookmarkStory(story);
-//        //close connection
-//        dbLink.close();
-//        //so that the user doesn't become confused and annoyed
-//        //show them that the addition was succesful
-//        Toast.makeText(this, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
+//    public void onStoryImageClick(View view){
+//        //make a new intent with the story class
+//        Intent intent = new Intent(this, NewsStories.class);
+//
+//        Story story = (Story)leadImageButton.getTag();
+//        intent.putExtra("story", story);
+//        //send the activity
+//        startActivity(intent);
 //    }
+
 
 }
