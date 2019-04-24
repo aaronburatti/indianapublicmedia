@@ -1,6 +1,7 @@
 package com.example.nebulese.myapplication.recyclerview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.activities.MainActivity;
+import com.example.nebulese.myapplication.activities.NewsStories;
 import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.squareup.picasso.Picasso;
@@ -72,7 +74,12 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
                 @Override
                 public void onClick(View v){
                    String title = (String) bmarkedStoryTitle.getText();
-                   dbHandle.getBookMarkedStory(title);
+                   Story story = dbHandle.getBookMarkedStory(title);
+                    Intent intent = new Intent(context, NewsStories.class);
+
+                    intent.putExtra("story", story);
+                    //send the activity
+                    context.startActivity(intent);
 
                 }
             });

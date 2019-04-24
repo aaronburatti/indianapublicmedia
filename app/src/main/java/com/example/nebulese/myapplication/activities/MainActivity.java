@@ -274,16 +274,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //this method will be extended to bring up a specific story in the future
-//    public void onStoryImageClick(View view){
-//        //make a new intent with the story class
-//        Intent intent = new Intent(this, NewsStories.class);
-//
-//        Story story = (Story)leadImageButton.getTag();
-//        intent.putExtra("story", story);
-//        //send the activity
-//        startActivity(intent);
-//    }
-
-
 }

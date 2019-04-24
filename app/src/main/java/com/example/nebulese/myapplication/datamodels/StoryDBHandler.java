@@ -108,18 +108,18 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         return storyList;
     }
 
-    public void getBookMarkedStory(String title){
+    public Story getBookMarkedStory(String title){
         //String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_BMARKED + " = 1";
-//          String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_TITLE   + " = " + title;
-//
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursor = db.rawQuery(query, null);
-//
-//        if(cursor.moveToFirst()){
-//            Story story = new Story(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
-//            Log.i("title","" + story.getAuthor());
-//        }
+          String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_TITLE   + " = \"" + title + "\"";
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            Story story = new Story(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
+            return story;
+        }
+        return null;
     }
 
     public boolean deleteBookmarkedStory(){
