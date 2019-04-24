@@ -44,7 +44,7 @@ public class NewsStories extends AppCompatActivity {
     Story story;
     Uri TwitImg;
     String shareURL;
-    String hash, storyTitle, imgUrl, pubDate, author, storyBody;
+    String hash, storyTitle, imgUrl, pubDate, author, storyText;
     private static final String TWIT_PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
     private static final String TWIT_PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
@@ -91,7 +91,7 @@ public class NewsStories extends AppCompatActivity {
         imgUrl = story.getImgUrl();
         pubDate = story.getPubDate();
         author = story.getAuthor();
-        storyBody = story.getBody();
+        storyText = story.getBody();
         shareURL = story.getStoryURL();
 
 
@@ -150,7 +150,7 @@ public class NewsStories extends AppCompatActivity {
     }
 
     public void onBookmarkClick(View view){
-        Story newsStory = new Story(hash, storyTitle, imgUrl, pubDate, author, storyBody);
+        Story newsStory = new Story(hash, storyTitle, imgUrl, pubDate, author, storyText);
         //new db object
         StoryDBHandler dbLink = new StoryDBHandler(this);
         //place the story into the db
