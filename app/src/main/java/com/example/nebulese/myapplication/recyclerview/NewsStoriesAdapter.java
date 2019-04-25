@@ -2,8 +2,10 @@ package com.example.nebulese.myapplication.recyclerview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +13,27 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.activities.MainActivity;
 import com.example.nebulese.myapplication.activities.NewsStories;
 import com.example.nebulese.myapplication.datamodels.Story;
+import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.squareup.picasso.Picasso;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+//import com.facebook.FacebookSdk;
+//import com.facebook.appevents.AppEventsLogger;
 
 
 public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.StoriesHolder> {
@@ -36,7 +45,8 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
     public ImageView leadImageButton;
     public TextView titleText;
     public ImageView fbicon;
-
+    private static final String TWIT_PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
+    private static final String TWIT_PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
 
     public NewsStoriesAdapter(Context context, ArrayList<Story> list){
@@ -58,6 +68,8 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
         private ImageView twitIcon;
         ImageView shareImageButton;
         ImageView fbicon;
+        ImageView bookMarkIcon;
+
 
         public StoriesHolder(View v, Context context){
             super(v);
@@ -71,6 +83,9 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             shareImageButton = (ImageView)v.findViewById(R.id.shareIcon) ;
             twitIcon = (ImageView)v.findViewById(R.id.twitIcon);
             fbicon = (ImageView) v.findViewById(R.id.fbIcon);
+            bookMarkIcon = (ImageView) v.findViewById(R.id.bookmarkIcon);
+
+
 
             //handle the lead image click
             leadImageButton.setOnClickListener(new View.OnClickListener() {
@@ -100,9 +115,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
                         String title = "Share Via...";
                         //get the specific story object
                         Story story = (Story)leadImageButton.getTag();
-                        //For right now I am placing the story body in the message
-                        //however, I need to include the web url in the JSON so that can be shared
-                        String shareText = story.getBody();
+                        String shareText = story.getStoryURL();
                         //handle subject instances
                         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
                         //load the share text
@@ -119,13 +132,43 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             twitIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Story story = (Story)leadImageButton.getTag();
+                    String text = story.getStoryURL();
+                    Uri img = Uri.parse(story.getImgUrl());
+                    TweetComposer.Builder builder = new TweetComposer.Builder(context)
+                            .text(text)
+                            .image(img);
+                    builder.show();
 
-                    /*
-                    NOT YET OPERATIONAL
-                     */
 
                 }
             });
+
+
+            bookMarkIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Story story = (Story)leadImageButton.getTag();
+                    //dummy hash for now as this will be brought in from JSON
+                    story.setHash(story.getHash()) ;
+                    story.setTitle(story.getTitle());
+                    story.setImgUrl(story.getImgUrl());
+                    story.setPubDate(story.getPubDate());
+                    story.setAuthor(story.getAuthor());
+                    story.setBody(story.getBody());
+                    //initialize db instance
+                    StoryDBHandler dbLink = new StoryDBHandler(context);
+                    //put story in db
+                    dbLink.bookmarkStory(story);
+                    //close connection
+                    dbLink.close();
+                    //so that the user doesn't become confused and annoyed
+                    //show them that the addition was succesful
+                    Toast.makeText(context, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
 
         }
 

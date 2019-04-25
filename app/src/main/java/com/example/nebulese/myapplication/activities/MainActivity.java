@@ -2,9 +2,8 @@ package com.example.nebulese.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,14 +18,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Adapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.api.ResponseClass;
@@ -35,15 +30,13 @@ import com.example.nebulese.myapplication.datamodels.Story;
 import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
 import com.example.nebulese.myapplication.recyclerview.BmarkedStories;
 import com.example.nebulese.myapplication.recyclerview.NewsStoriesAdapter;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.squareup.picasso.Picasso;
+//import com.facebook.FacebookSdk;
+//import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,10 +61,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            new GetAPI(this).execute();
+        }
+        else{
+            Toast.makeText(this, "please connect to the internet", Toast.LENGTH_SHORT).show();
+        }
+
+
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
         //call the async function immediately
-        new GetAPI(this).execute();
+
 
         //make sure everything needed is programmatically accessible
         leadImageButton = (ImageButton)findViewById(R.id.leadImage);
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public class GetAPI extends AsyncTask<Void, Void, ResponseClass> {
         private ProgressBar progressBar;
         private Context context;
-        private String api = "https://indianapublicmedia.org/feeds/newsjson.json";
+        private String api = "https://indianapublicmedia.org/feeds/another-json-feed.json";
 
         GetAPI(Context context){this.context = context;}
 
@@ -130,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             JSONObject jsonObject = null;
             try {
                 //pull the data out of response object and put it in jsonobject
+
                 jsonObject = new JSONObject(link.getmMessaage());
+
                 //turn that into a json array
                 JSONArray jsonArray = jsonObject.getJSONArray("stories");
                 //get the arraylist ready
@@ -140,19 +147,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Story story = new Story();
                     //get the data out of the array and pass it to the story object
                     story.setTitle(jsonArray.getJSONObject(i).getString("title"));
-                    story.setHash(jsonArray.getJSONObject(i).getString("id"));
+                    story.setHash(jsonArray.getJSONObject(i).getString("hash"));
                     story.setImgUrl(jsonArray.getJSONObject(i).getString("img"));
                     story.setPubDate(jsonArray.getJSONObject(i).getString("date"));
                     story.setBody(jsonArray.getJSONObject(i).getString("story"));
+                    story.setAuthor(jsonArray.getJSONObject(i).getString("author"));
+                    story.setStoryURL(jsonArray.getJSONObject(i).getString("link"));
+
 
                     //put the story in the list
                     jsonStoriesList.add(story);
-
-                    //#set($wys = $wys.replaceAll(,))
-                    //#set($wys = $wys.replaceAll('"', '"'))
-                    //#set($wys = $wys.replaceAll("", ""))
-                    //#set($wys = $wys.replaceAll("", ""))
-                    //#set($wys = $wys.replaceAll("", "  "))
                 }
 
                 //call the recycler and load the stories list
@@ -269,48 +273,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
     }
 
-
-    //this method will be extended to bring up a specific story in the future
-    public void onStoryImageClick(View view){
-        //make a new intent with the story class
-        Intent intent = new Intent(this, NewsStories.class);
-
-        Story story = (Story)leadImageButton.getTag();
-        intent.putExtra("story", story);
-        //send the activity
-        startActivity(intent);
-    }
-
-
-    /*
-    THIS NEEDS TO BE MOVED TO THE NEWS STORIES ADAPTER CLASS
-     */
-    public void onBookmarkClick(View view){
-        //dummy hash for now as this will be brought in from JSON
-        String hash = "46hfgkld99";
-        //get title textview
-        TextView titleTextView = (TextView)findViewById(R.id.titleText);
-        //convert titletextview's value to a string then save in a variable
-        String title = titleTextView.getText().toString();
-        //dummy string url as this will come from JSON eventually
-        String imgUrl = "http://indianapublicmedia.org/billmurray.png";
-        //dummy date as this will be gathered from JSON
-        String pubDate = "06/7/19";
-        //dummy author
-        String author = "Hercules the Goat";
-        //dummy body
-        String body = "This is the latest and greatest invention from Ronco. it slices, it dices, it delouses your shoes!";
-        //create the story object
-        Story story = new Story(hash, title, imgUrl, pubDate, author, body);
-        //initialize db instance
-        StoryDBHandler dbLink = new StoryDBHandler(this);
-        //put story in db
-        dbLink.bookmarkStory(story);
-        //close connection
-        dbLink.close();
-        //so that the user doesn't become confused and annoyed
-        //show them that the addition was succesful
-        Toast.makeText(this, "Story Bookmarked!", Toast.LENGTH_SHORT).show();
-    }
 
 }

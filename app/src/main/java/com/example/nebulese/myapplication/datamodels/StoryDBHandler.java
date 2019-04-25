@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
     //SQLite doesn't have a datetime data formate, so make a formatted string
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     //register db variables
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "StoriesDB.db";
     private static final String TABLE_STORIES = "Stories";
     private static final String COLUMN_ID = "ID";
@@ -68,6 +69,7 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         //places values in the object
         values.put(COLUMN_HASH, story.getHash());
         values.put(COLUMN_TITLE, story.getTitle());
+        values.put(COLUMN_IMG_URL, story.getImgUrl());
         values.put(COLUMN_PUB_DATE, story.getPubDate().toString());
         values.put(COLUMN_AUTHOR, story.getAuthor());
         values.put(COLUMN_BODY, story.getBody());
@@ -104,6 +106,20 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         }
         //return the story list for later use
         return storyList;
+    }
+
+    public Story getBookMarkedStory(String title){
+        //String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_BMARKED + " = 1";
+          String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_TITLE   + " = \"" + title + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            Story story = new Story(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
+            return story;
+        }
+        return null;
     }
 
     public boolean deleteBookmarkedStory(){

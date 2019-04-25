@@ -51,6 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_weight=".25"
+                android:clickable="true"
+                android:onClick="twitIconClick"
                 android:src="@drawable/twitter_black_icon" />
 
             <ImageView

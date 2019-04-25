@@ -1,15 +1,22 @@
 package com.example.nebulese.myapplication.recyclerview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nebulese.myapplication.R;
+import com.example.nebulese.myapplication.activities.MainActivity;
+import com.example.nebulese.myapplication.activities.NewsStories;
 import com.example.nebulese.myapplication.datamodels.Story;
+import com.example.nebulese.myapplication.datamodels.StoryDBHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -27,6 +34,8 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
     private Context context;
     public ImageView bmarkedStoryImage;
     public TextView bmarkedStoryTitle;
+    public ImageView deleteStoryIcon;
+
 
     public BmarkedStoriesAdapter(Context context, ArrayList<Story> list){
         //constructor consuming the context, inflater, and list
@@ -41,10 +50,40 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         private LayoutInflater inflater;
         public ImageView bmarkedStoryImage;
         public TextView bmarkedStoryTitle;
+        public ImageView deleteStoryIcon;
+        private Context context;
 
-        public StoriesHolder(ViewGroup v){
+
+        public StoriesHolder(ViewGroup v, Context context){
             super(v);
             v.setOnClickListener(this);
+
+            bmarkedStoryImage = (ImageView) v.findViewById(R.id.bmarkedStoryImage);
+            bmarkedStoryTitle = (TextView) v.findViewById(R.id.bmarkedStoryTitle);
+            final StoryDBHandler dbHandle = new StoryDBHandler(context);
+
+//            deleteStoryIcon.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View view){
+//                Toast.makeText(context,"So, you want to delete a story, eh?", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
+
+            bmarkedStoryImage.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                   String title = (String) bmarkedStoryTitle.getText();
+                   Story story = dbHandle.getBookMarkedStory(title);
+                    Intent intent = new Intent(context, NewsStories.class);
+
+                    intent.putExtra("story", story);
+                    //send the activity
+                    context.startActivity(intent);
+
+                }
+            });
+
         }
 
         @Override
@@ -60,10 +99,11 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         //inflate the single bookmarked story view
         view = inflater.inflate(R.layout.bmarked_story_row, parent, false);
         //pass it to the holder
-        holder = new StoriesHolder((ViewGroup) view);
+        holder = new StoriesHolder((ViewGroup) view, context);
         //get the image and text view
         bmarkedStoryTitle = (TextView) view.findViewById(R.id.bmarkedStoryTitle);
         bmarkedStoryImage = (ImageView) view.findViewById(R.id.bmarkedStoryImage);
+        deleteStoryIcon = (ImageView) view.findViewById(R.id.storyDelete);
         return holder;
     }
 
@@ -73,7 +113,7 @@ public class BmarkedStoriesAdapter extends RecyclerView.Adapter<BmarkedStoriesAd
         Story storyList = list.get(index);
         //set the image and text
         bmarkedStoryTitle.setText(storyList.getTitle());
-        bmarkedStoryImage.setImageResource(R.mipmap.storyleadicon);
+        Picasso.get().load(storyList.getImgUrl()).into(bmarkedStoryImage);
     }
 
     //in case the list size is needed
