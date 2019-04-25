@@ -31,7 +31,7 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
     private static final int RECOVERY_REQUEST = 1;
     private YouTubePlayerView youTubePlayer;
     private static String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
-    private static String PlayList_ID = "";
+    private static String PlayList_ID;
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     Context context;
 
@@ -44,6 +44,7 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
         //get the bundle and parse the identifying infor
         Bundle bun = getIntent().getExtras();
         //look for the index and get the appropriate playlist
+        PlayList_ID = "";
         if(bun.getInt("index") == 1) {
             PlayList_ID = bun.getString("incard");
         } else {
@@ -60,7 +61,7 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
     public class GetVids extends AsyncTask<Void, Void, ResponseClass>{
         private Context context;
         private ProgressBar progressBar;
-        private String api = "https://www.googleapis.com/youtube/v3/playlists?part=contentDetails&id=PLsLvHNXs74oDjl92pCVCZNiyBXsS81V6Q&maxResults=20";
+        private String api = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=20&key="+YOUTUBE_API_KEY+"&playlistId=PLsLvHNXs74oABQAwdocnfKJDdd1Vt6eIT";
 
         public GetVids (Context context){
             this.context = context;
@@ -69,7 +70,7 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            //show a progress bar as the app loads data
+//            show a progress bar as the app loads data
 //            progressBar = new ProgressBar(context);
 //            progressBar.setIndeterminate(false);
 //            progressBar.setVisibility(View.VISIBLE);
@@ -77,9 +78,7 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
 
         @Override
         protected ResponseClass doInBackground(Void... voids) {
-            Log.i("url", "" + api);
             ResponseClass responseClass = new WebLink().getResponse(api);
-            Log.i("resp","" +responseClass);
             return responseClass;
         }
 
@@ -87,21 +86,19 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
         protected void onPostExecute(ResponseClass link){
             super.onPostExecute(link);
             JSONObject jsonObject = null;
-
             try{
-
                 jsonObject = new JSONObject(link.getmMessaage());
-                Log.i("json","" + jsonObject);
-//                JSONArray jsonArray = jsonObject.getJSONArray();
-//
-//                ArrayList<Videos> jsonStoriesList = new ArrayList<>();
-//                for(int i = 0; i < jsonArray.length(); i++){
-//                    //declare a new story
-//                    Videos video = new Videos();
-//
-//                    //put the story in the list
-//                    //jsonStoriesList.add();
-//                }
+
+                JSONArray jsonArray = jsonObject.getJSONArray("items");
+                ArrayList<Videos> jsonVideosList = new ArrayList<>();
+                for(int i = 0; i < jsonArray.length(); i++){
+
+                    Videos video = new Videos();
+                    String j = jsonArray.getJSONObject(i).getString("contentDetails");
+                    String a = j.substring(12,23);
+                    video.setVideoId(a);
+                    jsonVideosList.add(video);
+                }
 
             }catch (JSONException e){
 
