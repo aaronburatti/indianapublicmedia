@@ -42,9 +42,6 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
     LayoutInflater inflater;
     NewsStoriesAdapter.StoriesHolder holder;
     private Context context;
-    public ImageView leadImageButton;
-    public TextView titleText;
-    public ImageView fbicon;
     private static final String TWIT_PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
     private static final String TWIT_PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 

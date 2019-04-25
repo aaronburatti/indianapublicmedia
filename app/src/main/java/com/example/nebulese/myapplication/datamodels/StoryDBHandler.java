@@ -109,7 +109,6 @@ public class StoryDBHandler extends SQLiteOpenHelper {
     }
 
     public Story getBookMarkedStory(String title){
-        //String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_BMARKED + " = 1";
           String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_TITLE   + " = \"" + title + "\"";
 
         SQLiteDatabase db = this.getWritableDatabase();
