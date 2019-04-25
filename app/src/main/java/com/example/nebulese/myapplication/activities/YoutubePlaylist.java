@@ -60,7 +60,7 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
     public class GetVids extends AsyncTask<Void, Void, ResponseClass>{
         private Context context;
         private ProgressBar progressBar;
-        private String api = "https://www.googleapis.com/youtube/v3/playlists/search?key="+ YOUTUBE_API_KEY +"&channelId="+ PlayList_ID +"&part=snippet,id&order=date&maxResults=15";
+        private String api = "https://www.googleapis.com/youtube/v3/playlists?part=contentDetails&id=PLsLvHNXs74oDjl92pCVCZNiyBXsS81V6Q&maxResults=20";
 
         public GetVids (Context context){
             this.context = context;
