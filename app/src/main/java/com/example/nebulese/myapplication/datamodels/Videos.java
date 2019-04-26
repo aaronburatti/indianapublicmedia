@@ -8,18 +8,8 @@ public class Videos {
     public Videos(){
 
     }
-    public Videos(String title, String videoUrl, String videoId) {
-        this.title = title;
+    public Videos(String videoUrl) {
         this.videoUrl = videoUrl;
-        this.videoId = videoId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getVideoUrl() {
@@ -28,13 +18,5 @@ public class Videos {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
-    }
-
-    public String getVideoId() {
-        return videoId;
-    }
-
-    public void setVideoId(String videoId) {
-        this.videoId = videoId;
     }
 }
