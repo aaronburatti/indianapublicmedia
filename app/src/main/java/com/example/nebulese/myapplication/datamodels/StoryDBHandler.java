@@ -96,9 +96,6 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         //if there are results from the query
         if(cursor.moveToFirst()){
             //create at least one story object
-            //for right now I am only getting the image url and the title
-            //later I will fetch the whole story so that if a user clicks
-            //a bookmarked story, i will pass whole object to the single story view
             do{
                 Story story = new Story(cursor.getInt(0), cursor.getString(2), cursor.getString(3));
                 storyList.add(story);
@@ -109,11 +106,13 @@ public class StoryDBHandler extends SQLiteOpenHelper {
     }
 
     public Story getBookMarkedStory(String title){
-          String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_TITLE   + " = \"" + title + "\"";
-
+        //query to match title of bookmarked story to one in DB
+        String query = "SELECT * FROM "  + TABLE_STORIES + " WHERE " + COLUMN_TITLE   + " = \"" + title + "\"";
+        //fetch db
         SQLiteDatabase db = this.getWritableDatabase();
+        //send the query
         Cursor cursor = db.rawQuery(query, null);
-
+        //create the story from DB data
         if(cursor.moveToFirst()){
             Story story = new Story(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
             return story;
@@ -121,10 +120,4 @@ public class StoryDBHandler extends SQLiteOpenHelper {
         return null;
     }
 
-    public boolean deleteBookmarkedStory(){
-        boolean result = false;
-
-
-        return result;
-    }
 }

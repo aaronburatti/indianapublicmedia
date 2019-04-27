@@ -129,6 +129,7 @@ public class NewsStoriesAdapter extends RecyclerView.Adapter<NewsStoriesAdapter.
             twitIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //same as other twitter implementation in single story view
                     Story story = (Story)leadImageButton.getTag();
                     String text = story.getStoryURL();
                     Uri img = Uri.parse(story.getImgUrl());

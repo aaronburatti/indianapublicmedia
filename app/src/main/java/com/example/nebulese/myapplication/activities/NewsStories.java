@@ -40,11 +40,12 @@ public class NewsStories extends AppCompatActivity {
     TextView title;
     TextView date;
     TextView body;
+    TextView author;
     ImageView image;
     Story story;
     Uri TwitImg;
     String shareURL;
-    String hash, storyTitle, imgUrl, pubDate, author, storyText;
+    String hash, storyTitle, imgUrl, pubDate, storyAuthor, storyText;
     private static final String TWIT_PUBLIC_KEY = "63GE7RHkdFVnEwKXG62sN1VPz";
     private static final String TWIT_PRIVATE_KEY = "13tPBDBPCyEFscFvucBWyUzAVq5Sg9o6kTuI9hDBceM98E9Nht";
 
@@ -69,6 +70,9 @@ public class NewsStories extends AppCompatActivity {
         date = (TextView)findViewById(R.id.storyDate);
         date.setText(story.getPubDate());
         body = (TextView)findViewById(R.id.storyBody);
+        author = (TextView)findViewById(R.id.storyAuthor);
+        author.setText(story.getAuthor());
+        //recode the html in the story that had to be decode to pass json validation
         String storyBody = story.getBody();
         storyBody = storyBody.replace("``", "--");
         storyBody = storyBody.replace("^","-");
@@ -81,16 +85,17 @@ public class NewsStories extends AppCompatActivity {
         storyBody = storyBody.replace("#160;"," ");
         storyBody = storyBody.replace("#8217;","'");
         storyBody = storyBody.replace("#8220;","\"");
-        storyBody = storyBody.replace("#8221;","\"");
+        storyBody = storyBody.replace("#8221;","-");
         //Spanned storyText = Html.fromHtml(storyBody);
         body.setText(Html.fromHtml(storyBody));
         image = (ImageView)findViewById(R.id.storyViewLeadImage);
         Picasso.get().load(story.getImgUrl()).into(image);
+        //set up strings for placement into the DB
         hash = story.getHash();
         storyTitle = story.getTitle();
         imgUrl = story.getImgUrl();
         pubDate = story.getPubDate();
-        author = story.getAuthor();
+        storyAuthor = story.getAuthor();
         storyText = story.getBody();
         shareURL = story.getStoryURL();
 
@@ -150,7 +155,7 @@ public class NewsStories extends AppCompatActivity {
     }
 
     public void onBookmarkClick(View view){
-        Story newsStory = new Story(hash, storyTitle, imgUrl, pubDate, author, storyText);
+        Story newsStory = new Story(hash, storyTitle, imgUrl, pubDate, storyAuthor, storyText);
         //new db object
         StoryDBHandler dbLink = new StoryDBHandler(this);
         //place the story into the db
@@ -177,10 +182,13 @@ public class NewsStories extends AppCompatActivity {
     }
 
     public void twitIconClick(View view){
+        //load the story pic into the tweet intent
         Uri TwitImg = Uri.parse(imgUrl);
+        //twitter api prebuilt functions
         TweetComposer.Builder builder = new TweetComposer.Builder(this)
                 .text(shareURL)
                 .image(TwitImg);
+        //make the tweet
         builder.show();
     }
 }

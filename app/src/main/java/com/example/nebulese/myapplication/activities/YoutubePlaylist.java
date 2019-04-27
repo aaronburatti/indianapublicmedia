@@ -33,11 +33,8 @@ import java.util.Vector;
 
 public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
     //youtube variable
-    private static final int RECOVERY_REQUEST = 1;
-    private YouTubePlayerView youTubePlayer;
     private static String YOUTUBE_API_KEY = "AIzaSyCfMG8Hi7yY76ch5-PpPXkQfYppWpXgDP8";
     private static String PlayList_ID;
-    private static final int RECOVERY_DIALOG_REQUEST = 1;
     Context context;
     RecyclerView recyclerView;
     private String api;
@@ -49,10 +46,10 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
         setContentView(R.layout.single_playlist);
 
         new GetVids(context).execute();
-        //get the bundle and parse the identifying infor
+        //get the bundle and parse the identifying info
         Bundle bun = getIntent().getExtras();
         //look for the index and get the appropriate playlist
-
+        //get the Playlist id of either intent
         if(bun.getInt("index") == 1) {
             PlayList_ID = bun.getString("incard");
 
@@ -60,13 +57,10 @@ public class YoutubePlaylist extends YouTubeBaseActivity implements YouTubePlaye
             PlayList_ID = bun.getString("indroid");
 
         }
-        //initialize the youtube view and play the playlist
-
-        //youTubePlayer.initialize(YOUTUBE_API_KEY, this);
-
+        //make the recyclerview available
         recyclerView = (RecyclerView)findViewById(R.id.youtubeRecycler);
-        PlayList_ID = "&playlistId="+ PlayList_ID;
-        api = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=20&key="+YOUTUBE_API_KEY+PlayList_ID;
+//        PlayList_ID = "&playlistId="+ PlayList_ID;
+//        api = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=20&key="+YOUTUBE_API_KEY+PlayList_ID;
     }
 
 

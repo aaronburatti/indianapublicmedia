@@ -1,16 +1,13 @@
 package com.example.nebulese.myapplication.recyclerview;
 
 
-import android.content.Context;
-import android.support.v7.widget.CardView;
+
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.nebulese.myapplication.R;
 import com.example.nebulese.myapplication.datamodels.Videos;
-import com.google.android.youtube.player.YouTubePlayer;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
@@ -20,15 +17,8 @@ import java.util.List;
 public class YouTubeAdapter extends RecyclerView.Adapter<YouTubeAdapter.VideosHolder> {
     //register all lists, views, and classes needed globally
     List<Videos> list = new ArrayList<>();
-    LayoutInflater inflater;
-    YouTubeAdapter.VideosHolder holder;
-    private Context context;
-    private CardView cardView;
-    private YouTubePlayer youTubePlayer;
-    private Layout vidLayout;
 
-
-
+    //constructors
     public YouTubeAdapter(){
 
     }
@@ -37,13 +27,12 @@ public class YouTubeAdapter extends RecyclerView.Adapter<YouTubeAdapter.VideosHo
         this.list = list;
     }
 
-    //inner class to process the inflated view and make everything clickable
-    //in the future this will bring up the whole of the bookmarked story
+
     public static class VideosHolder extends RecyclerView.ViewHolder{
         WebView youtubeWeb;
 
 
-
+        //initialize the webview for each recycled view
         public VideosHolder(View v){
             super(v);
 
@@ -54,8 +43,6 @@ public class YouTubeAdapter extends RecyclerView.Adapter<YouTubeAdapter.VideosHo
 
             } );
 
-
-
         }
 
 
@@ -64,15 +51,15 @@ public class YouTubeAdapter extends RecyclerView.Adapter<YouTubeAdapter.VideosHo
 
     @Override
     public VideosHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        //inflate the single story view
+        //inflate the single youtube vid view
         View view = LayoutInflater.from( parent.getContext()).inflate(R.layout.single_youtube_vid, parent, false);
         //pass it to the holder
-
         return new VideosHolder(view);
     }
 
     @Override
     public void onBindViewHolder(VideosHolder holder, int index){
+        //set the url from the list in the webview
         holder.youtubeWeb.loadData( list.get(index).getVideoUrl(), "text/html" , "utf-8" );
 
     }
